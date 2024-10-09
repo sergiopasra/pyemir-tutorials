@@ -32,14 +32,14 @@ images):
 
 Those files (together with some additional files that you will need to follow
 this imaging example) are available as a compressed tgz file:
-`pyemir_imaging_tutorial_v3.tgz
-<http://nartex.fis.ucm.es/data/pyemir/pyemir_imaging_tutorial_v3.tgz>`_.
+`pyemir_imaging_tutorial_v4.tgz
+<https://guaix.fis.ucm.es/data/pyemir/pyemir_imaging_tutorial_v4.tgz>`_.
 
 The preliminary combination of these 14 images will be carried out in two
 steps:
 
-- **Step 1:** basic reduction of each individual image (bad-pixel masking and
-  flatfielding)
+- **Step 1:** basic reduction of each individual image: bad-pixel masking,
+  flatfielding and reprojection (the latter only since PyEmir version 0.17.0)
 
 - **Step 2:** actual combination of the images
 
@@ -55,10 +55,10 @@ Decompress there the previously mentioned tgz file:
 
 ::
 
-   (emir) $ tar zxvf pyemir_imaging_tutorial_v3.tgz
+   (emir) $ tar zxvf pyemir_imaging_tutorial_v4.tgz
    ...
    ...
-   (emir) $ rm pyemir_imaging_tutorial_v3.tgz
+   (emir) $ rm pyemir_imaging_tutorial_v4.tgz
 
 This action should have populated the file tree with the 
 14 scientific raw FITS (placed wihtin the ``data``
@@ -107,23 +107,15 @@ astropy utility ``fitsheader``:
 
 ::
 
-   (emir) $ fitsheader data/0001877*.fits -k obsblock -k imgobbl -k nimgobbl -k object -k exptime -k readmode -f
-                      filename                    OBSBLOCK IMGOBBL NIMGOBBL OBJECT EXPTIME  READMODE
-   ---------------------------------------------- -------- ------- -------- ------ -------- --------
-   data/0001877553-20181217-EMIR-STARE_IMAGE.fits        1       1        7   TEST 29.99926     RAMP
-   data/0001877559-20181217-EMIR-STARE_IMAGE.fits        1       2        7   TEST 29.99926     RAMP
-   data/0001877565-20181217-EMIR-STARE_IMAGE.fits        1       3        7   TEST 29.99926     RAMP
-   data/0001877571-20181217-EMIR-STARE_IMAGE.fits        1       4        7   TEST 29.99926     RAMP
-   data/0001877577-20181217-EMIR-STARE_IMAGE.fits        1       5        7   TEST 29.99926     RAMP
-   data/0001877583-20181217-EMIR-STARE_IMAGE.fits        1       6        7   TEST 29.99926     RAMP
-   data/0001877589-20181217-EMIR-STARE_IMAGE.fits        1       7        7   TEST 29.99926     RAMP
-   data/0001877595-20181217-EMIR-STARE_IMAGE.fits        2       1        7   TEST 29.99926     RAMP
-   data/0001877601-20181217-EMIR-STARE_IMAGE.fits        2       2        7   TEST 29.99926     RAMP
-   data/0001877607-20181217-EMIR-STARE_IMAGE.fits        2       3        7   TEST 29.99926     RAMP
-   data/0001877613-20181217-EMIR-STARE_IMAGE.fits        2       4        7   TEST 29.99926     RAMP
-   data/0001877619-20181217-EMIR-STARE_IMAGE.fits        2       5        7   TEST 29.99926     RAMP
-   data/0001877625-20181217-EMIR-STARE_IMAGE.fits        2       6        7   TEST 29.99926     RAMP
-   data/0001877631-20181217-EMIR-STARE_IMAGE.fits        2       7        7   TEST 29.99926     RAMP
+   (emir) $ fitsheader data/0001877* \
+     -k nobsblck -k obsblock -k nimgobbl -k imgobbl \
+     -k nexp -k exp -k object -k exptime -k readmode \
+     -k filter -k grism -k date-obs -k ra -k dec -f > fitsheader_out.txt
+
+The previous command generates a file ``fitsheader_out.txt`` with the contents
+of some relevant FITS keywords extracted from the header of the images.
+
+.. literalinclude:: fitsheader_out.txt
 
 Note that:
 
@@ -132,15 +124,23 @@ Note that:
 - the keyword ``NIMGOBBL`` provides the total number of images in each
   dithering pattern (7 in this case).
 
-- ``IMGOBBL`` indicates the sequential number within each pattern.
+- ``IMGOBBL`` indicates the sequential number within each pattern. This number
+  runs from 1 to ``NIMGOBBL``.
 
-The first step in the reduction process will be the bad-pixel mask
-and flatfield corrections.
+- the keyword ``NEXP`` gives the number of exposures taken at each position in
+  the dithering pattern before moving to the next one. In this simple example
+  this number is 1.
+
+- the keyword ``EXP`` provides de sequential number at each position in the
+  dithering pattern. This number runs from 1 to ``NEXP``.
+
+The first steps in the reduction process will be the bad-pixel mask,
+flatfielding, and image reprojection.
 
 .. note::
 
    Remember that the ``numina`` script is the interface with GTC pipelines. 
-   In order to execute PyEmir recipes you should use type something like:
+   In order to execute PyEmir recipes you should type something like:
 
    ::
    
@@ -175,11 +175,11 @@ Each block is separated by a line containing just three dashes (``---``):
 
 
 The contents of this file is displayed below,
-highlighting the first block (first six lines):
+highlighting the first block (first eight lines):
 
 .. literalinclude:: dithered_ini.yaml
-   :lines: 1-97
-   :emphasize-lines: 1-6
+   :lines: 1-125
+   :emphasize-lines: 1-8
    :linenos:
    :lineno-start: 1
 
@@ -192,7 +192,7 @@ highlighting the first block (first six lines):
   obtained with the GTC to build the label.
  
 - Not surprisingly, the key ``instrument`` is set to EMIR (do not forget that
-  Numina also is at present also employed to reduce MEGARA data, and hopefully,
+  Numina is at present also employed to reduce MEGARA data, and hopefully,
   future GTC instruments).
    
 - The key ``mode`` indicates the identification of the reduction recipe
@@ -202,6 +202,23 @@ highlighting the first block (first six lines):
   the reduction recipe. In this case a single image has been obtained at each
   point of the dithering pattern before moving to the next location within the
   pattern. For that reason a single image appears in each block. 
+
+- The key ``requirements`` is employed to pass additional parameters to the
+  reduction recipe. In this case, we are specifying the reprojection method to
+  be employed in order to correct the images from distortions prior to their
+  final combination. Since the reprojection is performed using the package
+  `reproject <https://reproject.readthedocs.io/en/stable/>`_ we can choose
+  between the different resampling algorithms implemented in that package:
+  valid values are: ``none`` (no reprojection is performed; this leads to bad
+  results when combining dithered images, specially at the final image
+  borders), ``interp`` (fastest reprojection method), ``adaptive``, or
+  ``exact`` (slowest). Please, have a look to the documentation in the
+  `reproject <https://reproject.readthedocs.io/en/stable/>`_ package if you
+  need additional information concerning the reprojetion methods. In this 
+  example we are using ``interp``, which provides
+  good results. PyEmir users can try to use the slower ``adaptive`` or
+  ``exact`` methods and compare the final combined images to check for the
+  impact of the adopted method (we do not expect important differences).
    
 - The key ``enabled: True`` indicates that this block is going to be reduced.
   As it is going to be shown later, the user can easily
@@ -224,15 +241,28 @@ highlighting the first block (first six lines):
       (emir) $ ls 0001877*fits > list_images.txt
       (emir) $ cd ..
       (emir) $ pyemir-generate_yaml_for_dithered_image \
-        data/list_images.txt --step 0 --outfile dithered_ini.yaml
+        data/list_images.txt --step 0 --repeat 1 \
+        --reprojection interp \
+        --outfile dithered_ini.yaml
 
 
    Note that a temporary file ``list_images.txt`` is created with a list of the
-   the individual exposures.  The script
-   ``pyemir-generate_yaml_for_dithered_image`` reads that file and generate the
-   observation result file ``dithered_ini.yaml`` (the parameter ``--step 0``
+   the individual exposures. The script
+   ``pyemir-generate_yaml_for_dithered_image`` reads that file and generates 
+   the observation result file ``dithered_ini.yaml``.
+
+   The parameter ``--step 0``
    indicates that the reduction recipe to be used here is ``STARE_IMAGE``,
-   which corresponds to the preliminary image reduction).
+   which corresponds to the preliminary image reduction. 
+
+   The parameter ``--repeat 1`` indicates that there is only a single exposure
+   at each telescope pointing within the dithering pattern. In a general case
+   this number can be greater than one (check the ``NEXP`` keyword in the FITS
+   header of the images; this is one of the keywords included in the file
+   ``fitsheader_out.txt`` generated above).
+
+   The reprojection method is also indicated by ``--reprojection interp``,
+   where the valid options are ``none``, ``interp``, ``adaptive`` or ``exact``.
 
 
 **The requirements file:** ``control.yaml``
@@ -243,6 +273,8 @@ calibration files. You do not need to modify anything here.
 .. literalinclude:: control.yaml
    :linenos:
    :lineno-start: 1
+
+Starting from March 2024, the format of this file has been updated to include calibrations for both the original EMIR detector and the subsequent replacement, the H2RG detector.
 
 **Numina execution**
 
@@ -295,8 +327,8 @@ In particular, for the first block:
    └── master_flatframe.fits
 
 *When disk space is an issue, it is possible to execute numina indicating that
-links (instead of actual copies of the original raw files) must be placed in the
-``work`` subdirectory.* This behaviour is set using the parameter
+links (instead of actual copies of the original raw files) must be placed in
+the* ``work`` *subdirectory.* This behaviour is set using the parameter
 ``--link-files``:
 
 ::
@@ -324,12 +356,12 @@ recipes. In particular, for the first block:
    $ tree obsid_0001877553_results/
    obsid_0001877553_results/
    ├── processing.log
+   ├── reduced_image.fits
    ├── result.json
-   ├── result_image.fits
    └── task.json
    
 Note that although all the reduced images receive the same name in all these
-``results`` subdirectories (for this reduction recipe ``result_image.fits``),
+``results`` subdirectories (for this reduction recipe ``reduced_image.fits``),
 there is no confusion because the subdirectory name contains a unique label for
 each block in the observation result file.
 
@@ -342,7 +374,7 @@ combination of the images. For that purpose a different reduction recipe must
 be employed: ``FULL_DITHERED_IMAGE``. 
 
 This task is carried out using a new
-observation result file: ``dithered_v0.yaml``: the first 97 lines of this new
+observation result file: ``dithered_v0.yaml``: the first 125 lines of this new
 file are the same as the content of the the previous file
 ``dithered_ini.yaml``, but setting ``enabled: False`` in each of the 14 blocks.
 This flag indicates that the execution of the recipe ``STARE_IMAGE`` is no
@@ -352,19 +384,19 @@ actual reduction, because they define the location of the previously reduced
 images**.
 
 The new observation result file ``dithered_v0.yaml`` contains a new block at
-the end (see lines 99-121 below), that is responsible of the execution of the
+the end (see lines 127-149 below), that is responsible of the execution of the
 combination of the previously reduced images:
 
 .. literalinclude:: dithered_v0.yaml
-   :lines: 1-121
-   :emphasize-lines: 99-121
+   :lines: 1-149
+   :emphasize-lines: 127-149
    :linenos:
    :lineno-start: 1
 
-The new block (lines 99-121) indicates that the reduction recipe
+The new block (lines 127-149) indicates that the reduction recipe
 ``FULL_DITHERED_IMAGE`` must be executed using as input the results of the
 previous blocks. In particular, the ``id's`` of the initial 14 blocks are given
-under the ``children:`` keyword (lines 103 to 116).
+under the ``children:`` keyword (lines 131 to 144).
 
 In addition, a few parameters (which will be modified later) are set to some
 default values in this initial combination:
@@ -404,13 +436,18 @@ a combined image.
    ::
 
       (emir) $ pyemir-generate_yaml_for_dithered_image \
-        data/list_images.txt --step 1 --obsid_combined combined_v0 \
-        --outfile dithered_v0.yaml 
+        data/list_images.txt --step 1 --repeat 1 \
+        --reprojection interp \
+        --obsid_combined combined_v0 \
+        --outfile dithered_v0.yaml
 
    Note that here we are using ``--step 1`` instead of ``--step 0``. In
    addition, a new parameter ``--obsid_combined combined_v0`` has also been
    employed in order to set the ``id`` of the block responsible for the
-   execution of the combination recipe (see line number 99 above).
+   execution of the combination recipe.
+
+   Do not miss the ``--repeat <NEXP>`` parameter (in this example
+   ``NEXP=1``).
 
 The combination of the images is finally performed using numina:
 
@@ -420,15 +457,15 @@ The combination of the images is finally performed using numina:
 
 The previous execution also generates two auxiliary subdirectories ``work`` and
 ``results``. The resulting combined image can be found in
-``obsid_combined_v0_result/result_image.fits``:
+``obsid_combined_v0_result/reduced_image.fits``:
 
 ::
 
    (emir) $ tree obsid_combined_v0_results/
    obsid_combined_v0_results/
    ├── processing.log
+   ├── reduced_image.fits
    ├── result.json
-   ├── result_image.fits
    └── task.json
 
 You can display the image using ``ds9``, using ``numina-ximshow`` (the display
@@ -436,10 +473,11 @@ tool shipped with numina based on matplotlib), or with any other tool:
 
 ::
 
-   (emir) $ numina-ximshow obsid_combined_v0_results/result_image.fits
+   (emir) $ numina-ximshow obsid_combined_v0_results/reduced_image.fits
 
 
-.. generada con --geometry 0,0,850,1200
+.. generada con --geometry 0,0,850,1200  
+.. (--geometry 0,0,567,800 en el MacBook Pro)
 .. convert image.png -trim image_trimmed.png
 .. image:: combined_v0_trimmed.png
    :width: 100%
@@ -453,10 +491,23 @@ information, are not suficiently precise. The zoomed region shown in the next
 image reveals that the problem is not negligible:
 
 .. generada con --geometry 0,0,850,1200 --bbox 1100,1600,800,1300
+.. (--geometry 0,0,576,800 en el MacBook Pro)
 .. convert image.png -trim image_trimmed.png
 .. image:: combined_v0_zoom_trimmed.png
    :width: 100%
    :alt: combined image, version 0
 
-In the next section we are showing several alternatives to improve the
-image combination.
+In addition, the superflatfield computed when combining the individual
+exposures does exhibit a doughnut-like shape that must be taken account
+(something that we have not yet done). In particular, the image
+``obsid_combined_v0_work/superflat_comb_i0.fits`` has the following aspect:
+
+.. generada con --geometry 0,0,850,1200  
+.. (--geometry 0,0,567,800 en el MacBook Pro)
+.. convert image.png -trim image_trimmed.png
+.. image:: superflat_v0_trimmed.png
+   :width: 100%
+   :alt: superflatfield, version 0
+
+In the next section we are showing several alternatives to handle the previous
+issues and improve the image combination.

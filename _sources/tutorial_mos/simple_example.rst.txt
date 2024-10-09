@@ -7,7 +7,7 @@ Simple example: arc exposure
 .. warning::
 
    All the commands are assumed to be executed in a terminal running the **bash
-   shell**.
+   shell** (or a compatible one).
 
    Don't forget to activate the same Python environment employed to install
    PyEmir.  In this document, the prompt ``(emir) $`` will indicate that this
@@ -70,7 +70,7 @@ will be generated from that median image.
 Those three files (together with some additional files that you will need to
 follow this simple example) are available as a compressed tgz file:
 `pyemir_arc_calibration_tutorial_v1.tgz
-<http://nartex.fis.ucm.es/data/pyemir/pyemir_arc_calibration_tutorial_v1.tgz>`_.
+<https://guaix.fis.ucm.es/data/pyemir/pyemir_arc_calibration_tutorial_v1.tgz>`_.
 
 
 Move to the directory where you have deployed the initial file tree structure
@@ -195,7 +195,7 @@ contains the reduction recipe to be applied and the images involved.
   the unique running number assigned to the first image of this set.
    
 - Not surprisingly, the key ``instrument`` is set to EMIR (do not forget that
-  Numina also is at present also employed to reduce MEGARA data, and hopefully,
+  Numina is at present also employed to reduce MEGARA data, and hopefully
   future GTC instruments).
    
 - The key ``mode`` indicates the identification of the reduction recipe
@@ -270,7 +270,7 @@ this working directory in order to preserve the original files.
 
 *When disk space is an issue, it is possible to execute numina indicating that
 links (instead of actual copies of the original raw files) must be placed in
-the ``work`` subdirectory.* This behaviour is set using the parameter
+the* ``work`` *subdirectory.* This behaviour is set using the parameter
 ``--link-files``:
 
 ::

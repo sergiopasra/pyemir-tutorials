@@ -1,44 +1,107 @@
 <!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-<html lang="en" data-content_root="../">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple example: arc exposure &mdash; pyemir-tutorials v1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
 
-    <title>Simple example: arc exposure &#8212; pyemir-tutorials v1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=c058f7c8" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=712fa57f" />
-    <script src="../_static/documentation_options.js?v=e160b93e"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="MOS example" href="mos_example.html" />
-    <link rel="prev" title="Understanding the data: image distortions" href="understanding.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
+    <link rel="prev" title="Understanding the data: image distortions" href="understanding.html" /> 
+</head>
 
-  
-  
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-  </head><body>
-  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
           
+          
+          <a href="../index.html" class="icon icon-home">
+            pyemir-tutorials
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../preliminaries/preliminaries.html">Preliminaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_imaging/index.html">Imaging mode tutorial: combination of dithered exposures</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Spectroscopic mode tutorial: MOS data</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="understanding.html">Understanding the data: image distortions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Simple example: arc exposure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#preliminary-rectification-and-wavelength-calibration">Preliminary rectification and wavelength calibration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-work-subdirectory">The <code class="docutils literal notranslate"><span class="pre">work</span></code> subdirectory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-results-subdirectory">The <code class="docutils literal notranslate"><span class="pre">results</span></code> subdirectory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#refined-rectification-and-wavelength-calibration">Refined rectification and wavelength calibration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#checking-the-spatial-direction-y-axis">Checking the spatial direction (Y axis)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#checking-the-wavelength-direction-x-axis">Checking the wavelength direction (X axis)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#improving-the-rectification-and-wavelength-calibration">Improving the rectification and wavelength calibration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mos_example.html">MOS example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ngc7798.html">NGC7798</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_flat/index.html">Flatfield generation</a></li>
+</ul>
 
-          <div class="body" role="main">
-            
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyemir-tutorials</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Spectroscopic mode tutorial: MOS data</a></li>
+      <li class="breadcrumb-item active">Simple example: arc exposure</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial_mos/simple_example.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <section id="simple-example-arc-exposure">
-<span id="simple-example"></span><h1>Simple example: arc exposure<a class="headerlink" href="#simple-example-arc-exposure" title="Link to this heading">¶</a></h1>
+<span id="simple-example"></span><h1>Simple example: arc exposure<a class="headerlink" href="#simple-example-arc-exposure" title="Permalink to this heading"></a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>All the commands are assumed to be executed in a terminal running the <strong>bash
-shell</strong>.</p>
+shell</strong> (or a compatible one).</p>
 <p>Don’t forget to activate the same Python environment employed to install
 PyEmir.  In this document, the prompt <code class="docutils literal notranslate"><span class="pre">(emir)</span> <span class="pre">$</span></code> will indicate that this
 is the case.</p>
@@ -73,7 +136,7 @@ fraction of a pixel</em>. In addition, the boundaries between the slitlets can
 also be shifted in order to match the real data.</p></li>
 </ul>
 <section id="preliminary-rectification-and-wavelength-calibration">
-<h2>Preliminary rectification and wavelength calibration<a class="headerlink" href="#preliminary-rectification-and-wavelength-calibration" title="Link to this heading">¶</a></h2>
+<h2>Preliminary rectification and wavelength calibration<a class="headerlink" href="#preliminary-rectification-and-wavelength-calibration" title="Permalink to this heading"></a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Before continuing, make sure that you have already initialize the file tree
@@ -94,7 +157,7 @@ will be computed and a preliminary rectified and wavelength calibrated image
 will be generated from that median image.</p>
 <p>Those three files (together with some additional files that you will need to
 follow this simple example) are available as a compressed tgz file:
-<a class="reference external" href="http://nartex.fis.ucm.es/data/pyemir/pyemir_arc_calibration_tutorial_v1.tgz">pyemir_arc_calibration_tutorial_v1.tgz</a>.</p>
+<a class="reference external" href="https://guaix.fis.ucm.es/data/pyemir/pyemir_arc_calibration_tutorial_v1.tgz">pyemir_arc_calibration_tutorial_v1.tgz</a>.</p>
 <p>Move to the directory where you have deployed the initial file tree structure
 containing the basic PyEmir calibration files (see  <a class="reference internal" href="../preliminaries/preliminaries.html#initial-file-tree"><span class="std std-ref">Initial file tree</span></a>).</p>
 <p>Decompress there the previously mentioned tgz file:</p>
@@ -142,8 +205,7 @@ numina:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow data/0001041345-20160917-EMIR-TEST0.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/0001041345_raw.png"><img alt="Image 0001041345 raw" src="../_images/0001041345_raw.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0001041345_raw.png"><img alt="Image 0001041345 raw" src="../_images/0001041345_raw.png" style="width: 100%;" /></a>
 <p>The wavelength direction corresponds to the horizontal axis, whereas the
 spatial direction is the vertical axis. This image was obtained with all the
 slitlets configured in longslit format. The arc lines exhibit an important
@@ -156,8 +218,7 @@ script <code class="docutils literal notranslate"><span class="pre">pyemir-displ
 ...
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/0001041345_csu_configuration.png"><img alt="Image 0001041345 csu configuration" src="../_images/0001041345_csu_configuration.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0001041345_csu_configuration.png"><img alt="Image 0001041345 csu configuration" src="../_images/0001041345_csu_configuration.png" style="width: 100%;" /></a>
 <p>The above image clearly shows that all CSU bars were configured to create
 aligned slitlets forming a (pseudo) longslit.</p>
 <div class="admonition note">
@@ -196,7 +257,7 @@ below), where the intermediate results and the final results are going to be
 stored, respectively. Note that we have arbitrarily chosen the 10 digits of
 the unique running number assigned to the first image of this set.</p></li>
 <li><p>Not surprisingly, the key <code class="docutils literal notranslate"><span class="pre">instrument</span></code> is set to EMIR (do not forget that
-Numina also is at present also employed to reduce MEGARA data, and hopefully,
+Numina is at present also employed to reduce MEGARA data, and hopefully
 future GTC instruments).</p></li>
 <li><p>The key <code class="docutils literal notranslate"><span class="pre">mode</span></code> indicates the identification of the reduction recipe
 (<code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code> in this example).</p></li>
@@ -250,7 +311,7 @@ have been created:</p>
 <li><p>a results subdirectory: <code class="docutils literal notranslate"><span class="pre">obsid_0001041345_results/</span></code></p></li>
 </ul>
 <section id="the-work-subdirectory">
-<h3>The <code class="docutils literal notranslate"><span class="pre">work</span></code> subdirectory<a class="headerlink" href="#the-work-subdirectory" title="Link to this heading">¶</a></h3>
+<h3>The <code class="docutils literal notranslate"><span class="pre">work</span></code> subdirectory<a class="headerlink" href="#the-work-subdirectory" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree obsid_0001041345_work/
 obsid_0001041345_work/
 ├── 0001041345-20160917-EMIR-TEST0.fits
@@ -278,7 +339,7 @@ obsid_0001041345_work/
 this working directory in order to preserve the original files.</p>
 <p><em>When disk space is an issue, it is possible to execute numina indicating that
 links (instead of actual copies of the original raw files) must be placed in
-the ``work`` subdirectory.</em> This behaviour is set using the parameter
+the</em> <code class="docutils literal notranslate"><span class="pre">work</span></code> <em>subdirectory.</em> This behaviour is set using the parameter
 <code class="docutils literal notranslate"><span class="pre">--link-files</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 0_preliminary_calibration.yaml --link-files -r control.yaml
 ...
@@ -361,7 +422,7 @@ all pixels with wavelength coverage in any of the 55 slitlets.</p></li>
 </ul>
 </section>
 <section id="the-results-subdirectory">
-<h3>The <code class="docutils literal notranslate"><span class="pre">results</span></code> subdirectory<a class="headerlink" href="#the-results-subdirectory" title="Link to this heading">¶</a></h3>
+<h3>The <code class="docutils literal notranslate"><span class="pre">results</span></code> subdirectory<a class="headerlink" href="#the-results-subdirectory" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree obsid_0001401345_results/
 obsid_0001401345_results/
 ├── processing.log
@@ -385,8 +446,7 @@ provided with numina:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_0001041345_results/reduced_mos.fits --z1z2 0,1000
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/stare_preliminary_version.png"><img alt="Stare image preliminary version" src="../_images/stare_preliminary_version.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/stare_preliminary_version.png"><img alt="Stare image preliminary version" src="../_images/stare_preliminary_version.png" style="width: 100%;" /></a>
 <ul>
 <li><p>The wavelength calibration coefficientes are stored in the usual FITS
 keywords <code class="docutils literal notranslate"><span class="pre">CRPIX1</span></code>, <code class="docutils literal notranslate"><span class="pre">CRVAL1</span></code> and <code class="docutils literal notranslate"><span class="pre">CDELT1</span></code>:</p>
@@ -453,14 +513,13 @@ wavelength calibration between slitlets does not agree within roughtly 1 pixel:<
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_0001041345_results/reduced_mos.fits --bbox 1920,2050,1,2090 --z1z2 0,11000
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/stare_preliminary_zoom.png"><img alt="Stare image preliminary zoom" src="../_images/stare_preliminary_zoom.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/stare_preliminary_zoom.png"><img alt="Stare image preliminary zoom" src="../_images/stare_preliminary_zoom.png" style="width: 100%;" /></a>
 <p>In addition, the absolute wavelength calibration is also wrong by a few pixels,
 as it is described below.</p>
 </section>
 </section>
 <section id="refined-rectification-and-wavelength-calibration">
-<h2>Refined rectification and wavelength calibration<a class="headerlink" href="#refined-rectification-and-wavelength-calibration" title="Link to this heading">¶</a></h2>
+<h2>Refined rectification and wavelength calibration<a class="headerlink" href="#refined-rectification-and-wavelength-calibration" title="Permalink to this heading"></a></h2>
 <p>The user can obtain a more refined rectified and wavelength calibrated image
 using precise wavelength calibration data. For this purpose one can use arc
 exposures (obtained just before or after de scientific images), or even the
@@ -496,7 +555,7 @@ two effects can be estimated either making use of the script
 the images. Both methods are described in the next subsections).</p>
 </div>
 <section id="checking-the-spatial-direction-y-axis">
-<h3>Checking the spatial direction (Y axis)<a class="headerlink" href="#checking-the-spatial-direction-y-axis" title="Link to this heading">¶</a></h3>
+<h3>Checking the spatial direction (Y axis)<a class="headerlink" href="#checking-the-spatial-direction-y-axis" title="Permalink to this heading"></a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you prefer to use <code class="docutils literal notranslate"><span class="pre">ds9</span></code> instead of the default PyEmir graphical output
@@ -512,17 +571,13 @@ exactly the same configuration, we can choose any of them):</p>
   --rect_wpoly_MOSlibrary data/rect_wpoly_MOSlibrary_grism_J_filter_J.json
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/overplot_boundary1.png"><img alt="Overplot boundary 1" src="../_images/overplot_boundary1.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/overplot_boundary1.png"><img alt="Overplot boundary 1" src="../_images/overplot_boundary1.png" style="width: 100%;" /></a>
 <p>Zooming in the lower region:</p>
-<a class="reference internal image-reference" href="../_images/overplot_boundary2.png"><img alt="Overplot boundary 2" src="../_images/overplot_boundary2.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/overplot_boundary2.png"><img alt="Overplot boundary 2" src="../_images/overplot_boundary2.png" style="width: 100%;" /></a>
 <p>Zooming in the middle region:</p>
-<a class="reference internal image-reference" href="../_images/overplot_boundary3.png"><img alt="Overplot boundary 3" src="../_images/overplot_boundary3.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/overplot_boundary3.png"><img alt="Overplot boundary 3" src="../_images/overplot_boundary3.png" style="width: 100%;" /></a>
 <p>Zooming in the upper region:</p>
-<a class="reference internal image-reference" href="../_images/overplot_boundary4.png"><img alt="Overplot boundary 4" src="../_images/overplot_boundary4.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/overplot_boundary4.png"><img alt="Overplot boundary 4" src="../_images/overplot_boundary4.png" style="width: 100%;" /></a>
 <p>The above plots show the selected image with the <strong>frontiers</strong> and
 <strong>boundaries</strong> of each slitlet overplotted. Here a clarification is needed:</p>
 <ul class="simple">
@@ -545,8 +600,7 @@ distinguish the frontiers between slitlets in the data, a reasonable zoom
 (showing consecutive slitlets with slightly different slit widths), helps to
 check that the predicted frontiers (blue lines) properly separate the slitlet
 data:</p>
-<a class="reference internal image-reference" href="../_images/overplot_boundary5.png"><img alt="Overplot boundary 5" src="../_images/overplot_boundary5.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/overplot_boundary5.png"><img alt="Overplot boundary 5" src="../_images/overplot_boundary5.png" style="width: 100%;" /></a>
 <p>If you prefer to use <code class="docutils literal notranslate"><span class="pre">ds9</span></code> for this task, remember that some useful auxiliary
 ds9-region files have been created under the <code class="docutils literal notranslate"><span class="pre">obsid_0001041345_work</span></code>
 subdirectory.  In particular:</p>
@@ -565,14 +619,12 @@ the raw image</p></li>
 <li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">-&gt;</span> <span class="pre">obsid_0001041345_work/ds9_frontiers_rawimage.reg</span></code></p></li>
 <li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">-&gt;</span> <span class="pre">obsid_0001041345_work/ds9_boundaries_rawimage.reg</span></code></p></li>
 </ul>
-<a class="reference internal image-reference" href="../_images/ds9_frontiers1.png"><img alt="ds9 frontiers 1" src="../_images/ds9_frontiers1.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/ds9_frontiers1.png"><img alt="ds9 frontiers 1" src="../_images/ds9_frontiers1.png" style="width: 100%;" /></a>
 <p>Zooming to check the slitlet frontiers:</p>
-<a class="reference internal image-reference" href="../_images/ds9_frontiers2.png"><img alt="ds9 frontiers 2" src="../_images/ds9_frontiers2.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/ds9_frontiers2.png"><img alt="ds9 frontiers 2" src="../_images/ds9_frontiers2.png" style="width: 100%;" /></a>
 </section>
 <section id="checking-the-wavelength-direction-x-axis">
-<h3>Checking the wavelength direction (X axis)<a class="headerlink" href="#checking-the-wavelength-direction-x-axis" title="Link to this heading">¶</a></h3>
+<h3>Checking the wavelength direction (X axis)<a class="headerlink" href="#checking-the-wavelength-direction-x-axis" title="Permalink to this heading"></a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you prefer to use <code class="docutils literal notranslate"><span class="pre">ds9</span></code> instead of the default PyEmir graphical output
@@ -588,11 +640,9 @@ additional parameter <code class="docutils literal notranslate"><span class="pre
   --arc_lines
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/overplot_arclines1.png"><img alt="overplot arclines 1" src="../_images/overplot_arclines1.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/overplot_arclines1.png"><img alt="overplot arclines 1" src="../_images/overplot_arclines1.png" style="width: 100%;" /></a>
 <p>Zooming:</p>
-<a class="reference internal image-reference" href="../_images/overplot_arclines2.png"><img alt="overplot arclines 2" src="../_images/overplot_arclines2.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/overplot_arclines2.png"><img alt="overplot arclines 2" src="../_images/overplot_arclines2.png" style="width: 100%;" /></a>
 <p>The observed arc lines appear around 3 pixels towards the left of the predicted
 locations (marked by the cyan circles).</p>
 <p>If you prefer to use <code class="docutils literal notranslate"><span class="pre">ds9</span></code> for this task, it is also possible to use the
@@ -606,16 +656,14 @@ same image:</p>
 <ul class="simple">
 <li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">-&gt;</span> <span class="pre">obsid_0001041345_work/ds9_arc_rawimage.reg</span></code></p></li>
 </ul>
-<a class="reference internal image-reference" href="../_images/ds9_arclines1.png"><img alt="ds9 arc lines 1" src="../_images/ds9_arclines1.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/ds9_arclines1.png"><img alt="ds9 arc lines 1" src="../_images/ds9_arclines1.png" style="width: 100%;" /></a>
 <p>Zooming:</p>
-<a class="reference internal image-reference" href="../_images/ds9_arclines2.png"><img alt="ds9 arc lines 2" src="../_images/ds9_arclines2.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/ds9_arclines2.png"><img alt="ds9 arc lines 2" src="../_images/ds9_arclines2.png" style="width: 100%;" /></a>
 <p>Here it is also clear that the observed arc lines appear around 3 pixels
 towards the left of the expected locations (indicated by the ds9 regions).</p>
 </section>
 <section id="improving-the-rectification-and-wavelength-calibration">
-<h3>Improving the rectification and wavelength calibration<a class="headerlink" href="#improving-the-rectification-and-wavelength-calibration" title="Link to this heading">¶</a></h3>
+<h3>Improving the rectification and wavelength calibration<a class="headerlink" href="#improving-the-rectification-and-wavelength-calibration" title="Permalink to this heading"></a></h3>
 <p>Once you have estimated the potential integer offsets (in X and Y) of your
 image relative to the expected slitlet frontiers (Y axis) and arc line
 locations (X axis), it is possible to rerun the reduction recipe
@@ -670,8 +718,7 @@ wavelength calibration of the different slitlets matches).</p>
   --bbox 1920,2050,1,2090 --z1z2 0,11000
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/stare_refined_zoom.png"><img alt="stare image refined zoom" src="../_images/stare_refined_zoom.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/stare_refined_zoom.png"><img alt="stare image refined zoom" src="../_images/stare_refined_zoom.png" style="width: 100%;" /></a>
 <p>Within the <code class="docutils literal notranslate"><span class="pre">obsid_0001041345_refined_work</span></code> subdirectory you can find a new
 auxiliary file called <code class="docutils literal notranslate"><span class="pre">expected_catalog_lines.fits</span></code> which contains the
 expected locations of the arc lines in the rectified and wavelength calibrated
@@ -683,8 +730,7 @@ ranges from 0.0 to 1.0):</p>
   --bbox 1920,2050,1,2090 --z1z2 0,0.4
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/stare_expected_refined_zoom.png"><img alt="expected stare image refined zoom" src="../_images/stare_expected_refined_zoom.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/stare_expected_refined_zoom.png"><img alt="expected stare image refined zoom" src="../_images/stare_expected_refined_zoom.png" style="width: 100%;" /></a>
 <p>Remember that in the work directory you can still find the ds9-region files
 with the frontiers (<code class="docutils literal notranslate"><span class="pre">ds9_frontiers_rectified.reg</span></code>), boundaries
 (<code class="docutils literal notranslate"><span class="pre">ds9_boundaries_rectified.reg</span></code>) and expected arc line locations
@@ -702,117 +748,50 @@ slitlets by number.</p>
 <li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">-&gt;</span> <span class="pre">obsid_0001041345_refined_work/ds9_frontiers_rectified.reg</span></code></p></li>
 <li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">-&gt;</span> <span class="pre">obsid_0001041345_refined_work/ds9_arc_rectified.reg</span></code></p></li>
 </ul>
-<a class="reference internal image-reference" href="../_images/ds9_rectified.png"><img alt="ds9 rectified image" src="../_images/ds9_rectified.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/ds9_rectified.png"><img alt="ds9 rectified image" src="../_images/ds9_rectified.png" style="width: 100%;" /></a>
 <p>Zooming:</p>
-<a class="reference internal image-reference" href="../_images/ds9_rectified_zoom.png"><img alt="ds9 rectified image zoom" src="../_images/ds9_rectified_zoom.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/ds9_rectified_zoom.png"><img alt="ds9 rectified image zoom" src="../_images/ds9_rectified_zoom.png" style="width: 100%;" /></a>
 <p>In the <code class="docutils literal notranslate"><span class="pre">obsid_0001041345_refined_work</span></code> subdirectory you should also find a
 new file named <code class="docutils literal notranslate"><span class="pre">crosscorrelation.pdf</span></code> which contains a graphical summary of
 the cross-correlation process. In particular, you have an individual plot for
 each slitlet showing the cross-correlation function:</p>
-<a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation0.png"><img alt="cross-correlation example 0" src="../_images/0001041345_crosscorrelation0.png" style="width: 100%;" />
-</a>
-<a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation1.png"><img alt="cross-correlation example 1" src="../_images/0001041345_crosscorrelation1.png" style="width: 100%;" />
-</a>
-<a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation2.png"><img alt="cross-correlation example 2" src="../_images/0001041345_crosscorrelation2.png" style="width: 100%;" />
-</a>
-<a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation3.png"><img alt="cross-correlation example 3" src="../_images/0001041345_crosscorrelation3.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation0.png"><img alt="cross-correlation example 0" src="../_images/0001041345_crosscorrelation0.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation1.png"><img alt="cross-correlation example 1" src="../_images/0001041345_crosscorrelation1.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation2.png"><img alt="cross-correlation example 2" src="../_images/0001041345_crosscorrelation2.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation3.png"><img alt="cross-correlation example 3" src="../_images/0001041345_crosscorrelation3.png" style="width: 100%;" /></a>
 </section>
 </section>
 </section>
 
 
+           </div>
           </div>
-              <div class="related bottom">
-                &nbsp;
-  <nav id="rellinks">
-    <ul>
-        <li>
-          &larr;
-          <a href="understanding.html" title="Previous document">Understanding the data: image distortions</a>
-        </li>
-        <li>
-          <a href="mos_example.html" title="Next document">MOS example</a>
-          &rarr;
-        </li>
-    </ul>
-  </nav>
-              </div>
-          
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="understanding.html" class="btn btn-neutral float-left" title="Understanding the data: image distortions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mos_example.html" class="btn btn-neutral float-right" title="MOS example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-2024, Universidad Complutense de Madrid.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="Main">
-        <div class="sphinxsidebarwrapper">
-<p class="logo">
-  <a href="../index.html">
-    <img class="logo" src="../_static/logo.png" alt="Logo" />
-    
-  </a>
-</p>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-
-
-
-
-
-
-
-
-<search id="searchbox" style="display: none" role="search">
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</search>
-<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../preliminaries/preliminaries.html">Preliminaries</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial_imaging/index.html">Imaging mode tutorial: combination of dithered exposures</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Spectroscopic mode tutorial: MOS data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial_flat/index.html">Flatfield generation</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="index.html">Spectroscopic mode tutorial: MOS data</a><ul>
-      <li>Previous: <a href="understanding.html" title="previous chapter">Understanding the data: image distortions</a></li>
-      <li>Next: <a href="mos_example.html" title="next chapter">MOS example</a></li>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &#169;2018-2020, Universidad Complutense de Madrid.
-      
-      |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.0.2</a>
-      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
-      
-      |
-      <a href="../_sources/tutorial_mos/simple_example.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+</body>
 </html>

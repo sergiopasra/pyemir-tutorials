@@ -7,7 +7,7 @@ MOS example
 .. warning::
 
    All the commands are assumed to be executed in a terminal running the **bash
-   shell**.
+   shell** (or a compatible one).
 
    Don't forget to activate the same Python environment employed to install
    PyEmir.  In this document, the prompt ``(emir) $`` will indicate that this
@@ -31,7 +31,14 @@ Downloading the tutorial data
 =============================
 
 Download the following file: `pyemir_mos_tutorial.tgz 
-<http://nartex.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz>`_.
+<https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz>`_.
+
+If you find any trouble trying to download the previous file, try with the
+command line:
+
+::
+
+   (emir) $ curl -O <https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz
 
 Move to the directory where you have deployed the initial file tree structure
 containing the basic PyEmir calibration files (see  :ref:`initial_file_tree`).
@@ -210,7 +217,7 @@ quality:
 
 - **refined calibration**: that refines the empirical calibration by making use
   of either additional calibration images (i.e., arcs) or by using the airglow
-  (OH) emission lines. The latter approach is going to be use in this example.
+  (OH) emission lines. The latter approach is going to be used in this example.
   
 *The refinement process requires an initial estimation of the offsets in the
 spatial (Y axis) and spectral (X axis) directions between the empirical
@@ -637,6 +644,19 @@ A few pages of that file are the following:
    :width: 100%
    :alt: cross-correlation example 3
 
+**Summary**: the final wavelength calibration applied to each
+slitlet differs from the preliminary wavelength calibration, and incorporates
+the two refinements displayed in the previous plots:
+
+- Refinement #1: global offset of each spectrum, computed using the
+  crosscorrelation method.
+
+- Refinement #2: systematic offset with wavelength, displayed as the straight
+  line fit (blue line) in the plot representing offset vs. wavelength. This
+  is a second order correction but it should provide an unbiased absolute
+  wavelength calibration in the whole wavelength range. The robust standard
+  deviation is a good proxy for the expected standard deviation of the
+  wavelength calibration, and it should be a fraction of ``CDELT1``.
 
 
 Automatic determination of X and Y offsets
@@ -715,10 +735,10 @@ expected location of the OH lines. This image is stored in the
 
    |pic_comparison_synthetic_1| |pic_comparison_synthetic_2|
 
-   .. |pic_comparison_rectwv_1| image:: images/0002004226_synthetic_comparison_1.png
+   .. |pic_comparison_synthetic_1| image:: images/0002004226_synthetic_comparison_1.png
       :width: 48%
 
-   .. |pic_comparison_rectwv_2| image:: images/0002004226_synthetic_comparison_2.png
+   .. |pic_comparison_synthetic_2| image:: images/0002004226_synthetic_comparison_2.png
       :width: 48%
 
 The automatic procedure has determined the following offset values:
@@ -1345,9 +1365,9 @@ The simple way to do it is making again use of the auxiliary script
    Full set of images.......: ABBAABBAABBAABBAABBAABBA
    --> File 1_rectwv_individual.yaml generated!
 
-Note that here we have used the script with the same parameters that we
+Note that we have used the script with the same parameters that we
 employed above to generate ``1_rectwv_combined.yaml``, but here we have omitted
-the flat ``--rectwv_combined``. Leaving out this parameter leads to the
+the flag ``--rectwv_combined``. Leaving out this parameter leads to the
 following observation result file (that we have named
 ``1_rectwv_individual.yaml`` to avoid overwritting the previous one):
 

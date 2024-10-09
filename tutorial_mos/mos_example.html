@@ -1,44 +1,111 @@
 <!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-<html lang="en" data-content_root="../">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOS example &mdash; pyemir-tutorials v1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
 
-    <title>MOS example &#8212; pyemir-tutorials v1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=c058f7c8" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=712fa57f" />
-    <script src="../_static/documentation_options.js?v=e160b93e"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="NGC7798" href="ngc7798.html" />
-    <link rel="prev" title="Simple example: arc exposure" href="simple_example.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
+    <link rel="prev" title="Simple example: arc exposure" href="simple_example.html" /> 
+</head>
 
-  
-  
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-  </head><body>
-  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
           
+          
+          <a href="../index.html" class="icon icon-home">
+            pyemir-tutorials
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../preliminaries/preliminaries.html">Preliminaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_imaging/index.html">Imaging mode tutorial: combination of dithered exposures</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Spectroscopic mode tutorial: MOS data</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="understanding.html">Understanding the data: image distortions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_example.html">Simple example: arc exposure</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">MOS example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#downloading-the-tutorial-data">Downloading the tutorial data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-csu-configuration">The CSU configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#preliminary-rectification-and-wavelength-calibration-using-oh-lines">Preliminary rectification and wavelength calibration using OH lines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#refined-rectification-and-wavelength-calibration">Refined rectification and wavelength calibration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#manual-determination-of-x-and-y-offsets">Manual determination of X and Y offsets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#improving-the-rectification-and-wavelength-calibration">Improving the rectification and wavelength calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#automatic-determination-of-x-and-y-offsets">Automatic determination of X and Y offsets</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#fast-abba-combination">Fast ABBA combination</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#careful-abba-combination">Careful ABBA combination</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#including-relative-offsets-between-a-and-b-images">Including relative offsets between A and B images</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#using-a-different-rectification-and-wavelength-calibration-for-each-image">Using a different rectification and wavelength calibration for each image</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ngc7798.html">NGC7798</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_flat/index.html">Flatfield generation</a></li>
+</ul>
 
-          <div class="body" role="main">
-            
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyemir-tutorials</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Spectroscopic mode tutorial: MOS data</a></li>
+      <li class="breadcrumb-item active">MOS example</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial_mos/mos_example.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <section id="mos-example">
-<span id="id1"></span><h1>MOS example<a class="headerlink" href="#mos-example" title="Link to this heading">¶</a></h1>
+<span id="id1"></span><h1>MOS example<a class="headerlink" href="#mos-example" title="Permalink to this heading"></a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>All the commands are assumed to be executed in a terminal running the <strong>bash
-shell</strong>.</p>
+shell</strong> (or a compatible one).</p>
 <p>Don’t forget to activate the same Python environment employed to install
 PyEmir.  In this document, the prompt <code class="docutils literal notranslate"><span class="pre">(emir)</span> <span class="pre">$</span></code> will indicate that this
 is the case.</p>
@@ -56,8 +123,13 @@ observations are deep enough to allow the use of the airglow OH lines to
 produce a good wavelength calibration. This means that no arc exposures are
 needed!</p>
 <section id="downloading-the-tutorial-data">
-<h2>Downloading the tutorial data<a class="headerlink" href="#downloading-the-tutorial-data" title="Link to this heading">¶</a></h2>
-<p>Download the following file: <a class="reference external" href="http://nartex.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz">pyemir_mos_tutorial.tgz</a>.</p>
+<h2>Downloading the tutorial data<a class="headerlink" href="#downloading-the-tutorial-data" title="Permalink to this heading"></a></h2>
+<p>Download the following file: <a class="reference external" href="https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz">pyemir_mos_tutorial.tgz</a>.</p>
+<p>If you find any trouble trying to download the previous file, try with the
+command line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ curl -O &lt;https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz
+</pre></div>
+</div>
 <p>Move to the directory where you have deployed the initial file tree structure
 containing the basic PyEmir calibration files (see  <a class="reference internal" href="../preliminaries/preliminaries.html#initial-file-tree"><span class="std std-ref">Initial file tree</span></a>).</p>
 <p>Decompress there the previously mentioned tgz file:</p>
@@ -161,11 +233,10 @@ the visualization tool provided with numina:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow data/0002004226-20190424-EMIR-STARE_SPECTRA.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/0002004226_raw.png"><img alt="Image 0002004226 raw" src="../_images/0002004226_raw.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_raw.png"><img alt="Image 0002004226 raw" src="../_images/0002004226_raw.png" style="width: 100%;" /></a>
 </section>
 <section id="the-csu-configuration">
-<h2>The CSU configuration<a class="headerlink" href="#the-csu-configuration" title="Link to this heading">¶</a></h2>
+<h2>The CSU configuration<a class="headerlink" href="#the-csu-configuration" title="Permalink to this heading"></a></h2>
 <p>It is clear from the previous figure that the EMIR slitlets were not configured
 in <cite>longslit</cite> mode, but in <cite>MOS</cite> mode. In addition, it is important to
 highlight that not all the slitlets were opened (i.e., the slits not assigned
@@ -183,11 +254,9 @@ the use in this case of the additional parameter <code class="docutils literal n
 ---&gt; separator:   1.475
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/0002004226_csu_configuration.png"><img alt="Image 0002004226 csu configuration" src="../_images/0002004226_csu_configuration.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_csu_configuration.png"><img alt="Image 0002004226 csu configuration" src="../_images/0002004226_csu_configuration.png" style="width: 100%;" /></a>
 <p>The first figure displays the slitlet arrangement.</p>
-<a class="reference internal image-reference" href="../_images/0002004226_slitlet_widths.png"><img alt="Image 0002004226 slitlet widths" src="../_images/0002004226_slitlet_widths.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_slitlet_widths.png"><img alt="Image 0002004226 slitlet widths" src="../_images/0002004226_slitlet_widths.png" style="width: 100%;" /></a>
 <p>Note that in this case we have employed the parameter <code class="docutils literal notranslate"><span class="pre">--n_clusters</span> <span class="pre">2</span></code>, that
 forces the script to display a histogram of slitlet widths, and to compute two
 clusters and a separating value (in this case 1.475 mm) which classifies the
@@ -195,7 +264,7 @@ slitlets in two groups: slitlets closed (widths &lt; 1.475 mm) and opened (width
 1.475 mm). This number will be used later.</p>
 </section>
 <section id="preliminary-rectification-and-wavelength-calibration-using-oh-lines">
-<h2>Preliminary rectification and wavelength calibration using OH lines<a class="headerlink" href="#preliminary-rectification-and-wavelength-calibration-using-oh-lines" title="Link to this heading">¶</a></h2>
+<h2>Preliminary rectification and wavelength calibration using OH lines<a class="headerlink" href="#preliminary-rectification-and-wavelength-calibration-using-oh-lines" title="Permalink to this heading"></a></h2>
 <p>As explained in <a class="reference internal" href="simple_example.html#simple-example"><span class="std std-ref">Simple example: arc exposure</span></a>, the rectification and wavelength
 calibration of any EMIR spectroscopic image can be obtained with two levels of
 quality:</p>
@@ -204,7 +273,7 @@ quality:</p>
 from the empirical calibration derived by the instrument team.</p></li>
 <li><p><strong>refined calibration</strong>: that refines the empirical calibration by making use
 of either additional calibration images (i.e., arcs) or by using the airglow
-(OH) emission lines. The latter approach is going to be use in this example.</p></li>
+(OH) emission lines. The latter approach is going to be used in this example.</p></li>
 </ul>
 <p><em>The refinement process requires an initial estimation of the offsets in the
 spatial (Y axis) and spectral (X axis) directions between the empirical
@@ -316,11 +385,10 @@ carried out:</p>
   obsid_0002004226_rectwv_preliminary_results/reduced_mos.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/0002004226_preliminary.png"><img alt="Image 0002004226 preliminary" src="../_images/0002004226_preliminary.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_preliminary.png"><img alt="Image 0002004226 preliminary" src="../_images/0002004226_preliminary.png" style="width: 100%;" /></a>
 </section>
 <section id="refined-rectification-and-wavelength-calibration">
-<h2>Refined rectification and wavelength calibration<a class="headerlink" href="#refined-rectification-and-wavelength-calibration" title="Link to this heading">¶</a></h2>
+<h2>Refined rectification and wavelength calibration<a class="headerlink" href="#refined-rectification-and-wavelength-calibration" title="Permalink to this heading"></a></h2>
 <p>Although the rectified and wavelength calibration image that we have just
 obtained appears to be fine, looking in detail it is possible to realize that
 both the absolute and relative wavelength calibration between slitlets are
@@ -341,7 +409,7 @@ unable to determine the vertical offset.</p></li>
 </ol>
 <p>In this tutorial we are describing both approaches.</p>
 <section id="manual-determination-of-x-and-y-offsets">
-<h3>Manual determination of X and Y offsets<a class="headerlink" href="#manual-determination-of-x-and-y-offsets" title="Link to this heading">¶</a></h3>
+<h3>Manual determination of X and Y offsets<a class="headerlink" href="#manual-determination-of-x-and-y-offsets" title="Permalink to this heading"></a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>As described in <a class="reference internal" href="simple_example.html#simple-example"><span class="std std-ref">Simple example: arc exposure</span></a>, the task of visually finding the
@@ -364,11 +432,9 @@ preliminary rectification and wavelength calibration, over the raw image:</p>
 <li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">--&gt;</span>
 <span class="pre">obsid_0002004226_rectwv_preliminary_work/ds9_frontiers_rawimage.reg</span></code></p></li>
 </ul>
-<a class="reference internal image-reference" href="../_images/0002004226_overplot1.png"><img alt="Image 0002004226 overplot 1" src="../_images/0002004226_overplot1.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_overplot1.png"><img alt="Image 0002004226 overplot 1" src="../_images/0002004226_overplot1.png" style="width: 100%;" /></a>
 <p>Zooming:</p>
-<a class="reference internal image-reference" href="../_images/0002004226_overplot2.png"><img alt="Image 0002004226 overplot 2" src="../_images/0002004226_overplot2.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_overplot2.png"><img alt="Image 0002004226 overplot 2" src="../_images/0002004226_overplot2.png" style="width: 100%;" /></a>
 <p>From this visual examination one concludes that <code class="docutils literal notranslate"><span class="pre">global_integer_offset_y_pix:</span>
 <span class="pre">-3</span></code>. Note that the sign of the offset is chosen to align the actual data
 with the predicted frontiers (displayed with dotted blue lines).</p>
@@ -389,8 +455,7 @@ the airglow (OH) emission lines:</p>
 <li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">--&gt;</span>
 <span class="pre">obsid_0002004226_rectwv_preliminary_work/ds9_oh_rawimage.reg</span></code></p></li>
 </ul>
-<a class="reference internal image-reference" href="../_images/0002004226_overplot3.png"><img alt="Image 0002004226 overplot 3" src="../_images/0002004226_overplot3.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_overplot3.png"><img alt="Image 0002004226 overplot 3" src="../_images/0002004226_overplot3.png" style="width: 100%;" /></a>
 <p>Note that the location of only the brightest OH lines are displayed. The visual
 examination reveals that in this case <code class="docutils literal notranslate"><span class="pre">global_integer_offset_x_pix:</span> <span class="pre">1</span></code>. Note
 that the sign of the offset is chosen to place the observed OH lines on the
@@ -398,7 +463,7 @@ predicted locations (displayed in cyan and magenta for the odd- and
 even-numbered slitlets, respectively).</p>
 </section>
 <section id="improving-the-rectification-and-wavelength-calibration">
-<h3>Improving the rectification and wavelength calibration<a class="headerlink" href="#improving-the-rectification-and-wavelength-calibration" title="Link to this heading">¶</a></h3>
+<h3>Improving the rectification and wavelength calibration<a class="headerlink" href="#improving-the-rectification-and-wavelength-calibration" title="Permalink to this heading"></a></h3>
 <p>We are ready to obtain the refined rectification and wavelength calibration
 coefficients using the integer offsets previously estimated. For that purpose
 it is advisable to make use of the same auxiliary script that we used before:</p>
@@ -543,14 +608,12 @@ transmit data objects (see details in <a class="reference external" href="https:
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_0002004226_rectwv_combined_results/reduced_mos.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/0002004226_refined.png"><img alt="Image 0002004226 refined" src="../_images/0002004226_refined.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_refined.png"><img alt="Image 0002004226 refined" src="../_images/0002004226_refined.png" style="width: 100%;" /></a>
 <p>Comparing this new result with the preliminary rectified and wavelength
 calibrated image shows that, apart from a global offset in the wavelength
 calibration, the OH lines are much more aligned when moving along the spatial
 direction:</p>
-<a class="reference internal image-reference" href="../_images/0002004226_rectwv_comparison.gif"><img alt="Image 0002004226 comparison rectification and wavelength calibration" src="../_images/0002004226_rectwv_comparison.gif" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_rectwv_comparison.gif"><img alt="Image 0002004226 comparison rectification and wavelength calibration" src="../_images/0002004226_rectwv_comparison.gif" style="width: 800px;" /></a>
 <p>It is also possible to display the synthetic image, generated during the
 execution of the reduction recipe, with the expected location of the airglow
 (OH) lines (line intensities are normalized in the range from 0.0 to 1.0):</p>
@@ -558,23 +621,31 @@ execution of the reduction recipe, with the expected location of the airglow
   --z1z2 0,0.3
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/0002004226_expected_oh_lines.png"><img alt="Image 0002004226 expected oh lines" src="../_images/0002004226_expected_oh_lines.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_expected_oh_lines.png"><img alt="Image 0002004226 expected oh lines" src="../_images/0002004226_expected_oh_lines.png" style="width: 100%;" /></a>
 <p>In the <code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_combined_work</span></code> subdirectory you can also find
 a file named <code class="docutils literal notranslate"><span class="pre">crosscorrelation.pdf</span></code> which contains a graphical summary of the
 cross-correlation process in the wavelength direction for each useful slitlet.
 A few pages of that file are the following:</p>
-<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation0.png"><img alt="cross-correlation example 0" src="../_images/0002004226_crosscorrelation0.png" style="width: 100%;" />
-</a>
-<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation1.png"><img alt="cross-correlation example 1" src="../_images/0002004226_crosscorrelation1.png" style="width: 100%;" />
-</a>
-<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation2.png"><img alt="cross-correlation example 2" src="../_images/0002004226_crosscorrelation2.png" style="width: 100%;" />
-</a>
-<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation3.png"><img alt="cross-correlation example 3" src="../_images/0002004226_crosscorrelation3.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation0.png"><img alt="cross-correlation example 0" src="../_images/0002004226_crosscorrelation0.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation1.png"><img alt="cross-correlation example 1" src="../_images/0002004226_crosscorrelation1.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation2.png"><img alt="cross-correlation example 2" src="../_images/0002004226_crosscorrelation2.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation3.png"><img alt="cross-correlation example 3" src="../_images/0002004226_crosscorrelation3.png" style="width: 100%;" /></a>
+<p><strong>Summary</strong>: the final wavelength calibration applied to each
+slitlet differs from the preliminary wavelength calibration, and incorporates
+the two refinements displayed in the previous plots:</p>
+<ul class="simple">
+<li><p>Refinement #1: global offset of each spectrum, computed using the
+crosscorrelation method.</p></li>
+<li><p>Refinement #2: systematic offset with wavelength, displayed as the straight
+line fit (blue line) in the plot representing offset vs. wavelength. This
+is a second order correction but it should provide an unbiased absolute
+wavelength calibration in the whole wavelength range. The robust standard
+deviation is a good proxy for the expected standard deviation of the
+wavelength calibration, and it should be a fraction of <code class="docutils literal notranslate"><span class="pre">CDELT1</span></code>.</p></li>
+</ul>
 </section>
 <section id="automatic-determination-of-x-and-y-offsets">
-<h3>Automatic determination of X and Y offsets<a class="headerlink" href="#automatic-determination-of-x-and-y-offsets" title="Link to this heading">¶</a></h3>
+<h3>Automatic determination of X and Y offsets<a class="headerlink" href="#automatic-determination-of-x-and-y-offsets" title="Permalink to this heading"></a></h3>
 <p>As previously mentioned, the integer offsets in X and Y, that we have estimated
 before with some effort, can be automatically determined by PyEmir when the
 spectroscopic images correspond to MOS observations with the slitlets not
@@ -648,10 +719,8 @@ error otherwise).</p></li>
 expected location of the OH lines. This image is stored in the
 <code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_combined_auto_work</span></code> subdirectory with the name
 <code class="docutils literal notranslate"><span class="pre">synthetic_raw_image.fits</span></code>.</p>
-<a class="reference internal image-reference" href="../_images/0002004226_synthetic.png"><img alt="synthetic images with OH lines" src="../_images/0002004226_synthetic.png" style="width: 100%;" />
-</a>
-<a class="reference internal image-reference" href="../_images/0002004226_synthetic_comparison.gif"><img alt="comparison between synthetic and original image" src="../_images/0002004226_synthetic_comparison.gif" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_synthetic.png"><img alt="synthetic images with OH lines" src="../_images/0002004226_synthetic.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_synthetic_comparison.gif"><img alt="comparison between synthetic and original image" src="../_images/0002004226_synthetic_comparison.gif" style="width: 800px;" /></a>
 <p>The automatic procedure has determined the following offset values:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">global_integer_offset_x_pix:</span> <span class="pre">1</span></code></p></li>
@@ -680,7 +749,7 @@ coefficients are the same:</p>
 </section>
 </section>
 <section id="fast-abba-combination">
-<h2>Fast ABBA combination<a class="headerlink" href="#fast-abba-combination" title="Link to this heading">¶</a></h2>
+<h2>Fast ABBA combination<a class="headerlink" href="#fast-abba-combination" title="Permalink to this heading"></a></h2>
 <p>The reduction recipe `` ABBA_SPECTRA_FAST_RECTWV`` performs a fast ABBA
 combination since it employs a single rectification and wavelength calibration
 solution for all the individual images. For that reason, all the A images in
@@ -780,8 +849,7 @@ positive signal), shifting the result along the spatial direction by
 <code class="docutils literal notranslate"><span class="pre">voffset_pix</span></code> pixels, and summing the coadded A spectra. When
 <code class="docutils literal notranslate"><span class="pre">voffset_pix=0</span></code> this image is empty.</p></li>
 </ul>
-<a class="reference internal image-reference" href="../_images/0002004226_abba_fast.png"><img alt="fast combination of ABBA images" src="../_images/0002004226_abba_fast.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_abba_fast.png"><img alt="fast combination of ABBA images" src="../_images/0002004226_abba_fast.png" style="width: 100%;" /></a>
 <p>Making a zoom in the resulting combined image, we estimate that the vertical
 offsets between A and B spectra (white and black, respectively) is around 38
 pixels. We can introduce this number in the requirement <code class="docutils literal notranslate"><span class="pre">voffset_pix</span></code>:</p>
@@ -843,8 +911,7 @@ coaddition of all the A and B spectra. All the targets that have been properly
 observed in the A and the B images should appear here three times: two in
 negative (black spectra) and one in positive (white spectrum in between the
 black ones).</p>
-<a class="reference internal image-reference" href="../_images/0002004226_abba_fast_combined.png"><img alt="fast combination of ABBA images (A on top of B)" src="../_images/0002004226_abba_fast_combined.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_abba_fast_combined.png"><img alt="fast combination of ABBA images (A on top of B)" src="../_images/0002004226_abba_fast_combined.png" style="width: 100%;" /></a>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>It is important to keep in mind how the signal in the combined images has
@@ -865,7 +932,7 @@ the signal in each of the negative spectrum has been scaled to
 </div>
 </section>
 <section id="careful-abba-combination">
-<h2>Careful ABBA combination<a class="headerlink" href="#careful-abba-combination" title="Link to this heading">¶</a></h2>
+<h2>Careful ABBA combination<a class="headerlink" href="#careful-abba-combination" title="Permalink to this heading"></a></h2>
 <p>In the previous combination we have assumed that in all the A images the
 targets were in exactly the same location in the slitlets. The same was assumed
 for the B images.</p>
@@ -886,8 +953,7 @@ region:</p>
 <p>The first command defines the list of images for which the keyword <code class="docutils literal notranslate"><span class="pre">IMGOBBL</span></code>
 is either 1 or 4 (A images). The second command generates a PDF file in which
 a zoom around slitlet number 2 is displayed for all the selected images.</p>
-<a class="reference internal image-reference" href="../_images/brightspectrum_a.gif"><img alt="variation of brightspectrum of A images" src="../_images/brightspectrum_a.gif" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="../_images/brightspectrum_a.gif"><img alt="variation of brightspectrum of A images" src="../_images/brightspectrum_a.gif" style="width: 800px;" /></a>
 <p>It is clear that the actual location of the A spectra changed along the
 sequence. Unfortunately, there were no bright spectra in the B images to check
 what was happening with the spectra in the B images (the stars in A images
@@ -910,7 +976,7 @@ images before generating the final combined image</p></li>
 calibration coefficients for all the individual images (as we have done
 previously) or different calibrations for each one.</p>
 <section id="including-relative-offsets-between-a-and-b-images">
-<h3>Including relative offsets between A and B images<a class="headerlink" href="#including-relative-offsets-between-a-and-b-images" title="Link to this heading">¶</a></h3>
+<h3>Including relative offsets between A and B images<a class="headerlink" href="#including-relative-offsets-between-a-and-b-images" title="Permalink to this heading"></a></h3>
 <p>Since, as we have just seen, it is possible that there are offsets between the
 different A and B locations, a first thing one can fix is the proper alignment
 of all the A images before coadding them, and the same with the B images.</p>
@@ -1103,12 +1169,11 @@ images</p></li>
 shifted in the spatial direction (using fractions of pixels, which takes
 additional time)</p></li>
 </ul>
-<a class="reference internal image-reference" href="../_images/0002004226_abba_combined.png"><img alt="careful combination of ABBA images (A on top of B)" src="../_images/0002004226_abba_combined.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/0002004226_abba_combined.png"><img alt="careful combination of ABBA images (A on top of B)" src="../_images/0002004226_abba_combined.png" style="width: 100%;" /></a>
 </section>
 </section>
 <section id="using-a-different-rectification-and-wavelength-calibration-for-each-image">
-<h2>Using a different rectification and wavelength calibration for each image<a class="headerlink" href="#using-a-different-rectification-and-wavelength-calibration-for-each-image" title="Link to this heading">¶</a></h2>
+<h2>Using a different rectification and wavelength calibration for each image<a class="headerlink" href="#using-a-different-rectification-and-wavelength-calibration-for-each-image" title="Permalink to this heading"></a></h2>
 <p>So far we have derived a single rectification and wavelength calibration
 coefficients file <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> that has been applied to the 24
 scientific images. However, it is possible that for long ABBA sequences, some
@@ -1124,8 +1189,7 @@ direction) when comparing different images. These variations are easy to detect
   --keystitle ra,dec,rotang.&quot;RA: %s, DEC: %s, rotang: %5.2f&quot;
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/abba_imageoffsets.gif"><img alt="looking for offsets between individual images" src="../_images/abba_imageoffsets.gif" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="../_images/abba_imageoffsets.gif"><img alt="looking for offsets between individual images" src="../_images/abba_imageoffsets.gif" style="width: 800px;" /></a>
 <p>Although the previous animation does not show an apparent variation in the
 location of the OH lines throughout the whole ABBA sequence, we are going to
 illustrate here how to proceed if that were the case.</p>
@@ -1150,9 +1214,9 @@ Full set of images.......: ABBAABBAABBAABBAABBAABBA
 --&gt; File 1_rectwv_individual.yaml generated!
 </pre></div>
 </div>
-<p>Note that here we have used the script with the same parameters that we
+<p>Note that we have used the script with the same parameters that we
 employed above to generate <code class="docutils literal notranslate"><span class="pre">1_rectwv_combined.yaml</span></code>, but here we have omitted
-the flat <code class="docutils literal notranslate"><span class="pre">--rectwv_combined</span></code>. Leaving out this parameter leads to the
+the flag <code class="docutils literal notranslate"><span class="pre">--rectwv_combined</span></code>. Leaving out this parameter leads to the
 following observation result file (that we have named
 <code class="docutils literal notranslate"><span class="pre">1_rectwv_individual.yaml</span></code> to avoid overwritting the previous one):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="nb">id</span><span class="p">:</span> <span class="n">_0002004226_rectwv</span>
@@ -1614,8 +1678,7 @@ avoid overwriting previous reductions:</p>
 <p>Finally, we can compare the result of this reduction, in which we have employed
 an individual <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> file for each of the 24 scientific images,
 with the one derived using the same <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> for all of them:</p>
-<a class="reference internal image-reference" href="../_images/abba_combinedcomparison.gif"><img alt="comparison between using single of multiple rectwv_coeff.json files" src="../_images/abba_combinedcomparison.gif" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="../_images/abba_combinedcomparison.gif"><img alt="comparison between using single of multiple rectwv_coeff.json files" src="../_images/abba_combinedcomparison.gif" style="width: 800px;" /></a>
 <p>Not surprisingly, the combination obtained after using the 24 individual
 <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> files is not very different from the one derived
 employing a single <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> file, since there were not apparent
@@ -1644,95 +1707,34 @@ using a single <code class="docutils literal notranslate"><span class="pre">rect
 </section>
 
 
+           </div>
           </div>
-              <div class="related bottom">
-                &nbsp;
-  <nav id="rellinks">
-    <ul>
-        <li>
-          &larr;
-          <a href="simple_example.html" title="Previous document">Simple example: arc exposure</a>
-        </li>
-        <li>
-          <a href="ngc7798.html" title="Next document">NGC7798</a>
-          &rarr;
-        </li>
-    </ul>
-  </nav>
-              </div>
-          
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="simple_example.html" class="btn btn-neutral float-left" title="Simple example: arc exposure" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ngc7798.html" class="btn btn-neutral float-right" title="NGC7798" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-2024, Universidad Complutense de Madrid.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="Main">
-        <div class="sphinxsidebarwrapper">
-<p class="logo">
-  <a href="../index.html">
-    <img class="logo" src="../_static/logo.png" alt="Logo" />
-    
-  </a>
-</p>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-
-
-
-
-
-
-
-
-<search id="searchbox" style="display: none" role="search">
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</search>
-<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../preliminaries/preliminaries.html">Preliminaries</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial_imaging/index.html">Imaging mode tutorial: combination of dithered exposures</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Spectroscopic mode tutorial: MOS data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial_flat/index.html">Flatfield generation</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="index.html">Spectroscopic mode tutorial: MOS data</a><ul>
-      <li>Previous: <a href="simple_example.html" title="previous chapter">Simple example: arc exposure</a></li>
-      <li>Next: <a href="ngc7798.html" title="next chapter">NGC7798</a></li>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &#169;2018-2020, Universidad Complutense de Madrid.
-      
-      |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.0.2</a>
-      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
-      
-      |
-      <a href="../_sources/tutorial_mos/mos_example.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+</body>
 </html>

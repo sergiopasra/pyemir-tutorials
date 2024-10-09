@@ -7,7 +7,7 @@ Preliminaries
 .. warning::
 
    All the commands are assumed to be executed in a terminal running the **bash
-   shell**.
+   shell** (or a compatible one).
 
    Don't forget to activate the same Python environment employed to install
    PyEmir.  In this document, the prompt ``(emir) $`` will indicate that this
@@ -42,8 +42,25 @@ Here you can find the initial file structure with basic calibrations, required
 to start the data reduction with PyEmir, either in imaging or spectroscopic
 mode.
 
-Download the following file: `pyemir_initial_tree_v1.tgz 
-<http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v1.tgz>`_.
+Download the following file: `pyemir_initial_tree_v2a.tgz 
+<https://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz>`_.
+
+If you find any trouble trying to download the previous file, try with the
+following command line:
+
+::
+
+   (emir) $ curl -O https://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz
+
+.. warning::
+
+   Please be aware that this file has been updated as of February 2024 to make
+   it easier to handle EMIR data collected with the new H2RG detector.
+   Specifically, the structure of the control.yaml file has been modified to
+   support varying calibrations based on the detector being used. This update
+   is part of an ongoing process as we continue to develop proper calibrations
+   for the H2RG detector. In the meantime, the pipeline should function
+   properly with images captured using the original EMIR detector.
 
 It is advisable to decompress the previous file in a pristine directory where
 you can comfortably start the reduction of your data:
@@ -55,18 +72,20 @@ you can comfortably start the reduction of your data:
    
    # copy here the downloaded tgz file
 
-   (emir) $ tar zxvf pyemir_initial_tree_v1.tgz
+   (emir) $ tar zxvf pyemir_initial_tree_v2a.tgz
    ...
    ...
-   (emir) $ rm pyemir_initial_tree_v1.tgz
+   (emir) $ rm pyemir_initial_tree_v2a.tgz
    (emir) $ tree 
    .
    ├── control.yaml
    └── data
        ├── master_bpm.fits
+       ├── master_bpm_zeros.fits
        ├── master_dark_zeros.fits
        ├── master_flat_ones.fits
        ├── master_flat_spec.fits
+       ├── master_flat_spec_H2RG.fits
        ├── rect_wpoly_MOSlibrary_grism_H_filter_H.json
        ├── rect_wpoly_MOSlibrary_grism_J_filter_J.json
        ├── rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json

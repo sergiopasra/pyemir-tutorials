@@ -8,7 +8,7 @@ Flatfield generation
 .. warning::
 
    All the commands are assumed to be executed in a terminal running the **bash
-   shell**.
+   shell** (or a compatible one).
 
    Don't forget to activate the same Python environment employed to install
    PyEmir.  In this document, the prompt ``(emir) $`` will indicate that this
@@ -17,8 +17,9 @@ Flatfield generation
 This example provides an easy introduction to the generation of flatfield
 images with PyEmir (via Numina),
 
-For detailed documentation concerning the installation of PyEmir, see the
-:ref:`pyemir_installation` guide.
+For detailed documentation concerning the installation of PyEmir, see `PyEmir
+Installation
+<https://pyemir.readthedocs.io/en/latest/installation/index.html>`_.
 
 Pixel-to-pixel variation
 ========================
@@ -110,7 +111,7 @@ check that the lamp OFF signal in this case is negligible.
 Those files (together with some additional files that you will need to follow
 this imaging example) are available as a compressed tgz file:
 `pyemir_flatpix2pix_tutorial_v1.tgz
-<http://nartex.fis.ucm.es/data/pyemir/pyemir_flatpix2pix_tutorial_v1.tgz>`_.
+<https://guaix.fis.ucm.es/data/pyemir/pyemir_flatpix2pix_tutorial_v1.tgz>`_.
 
 .. warning::
 
