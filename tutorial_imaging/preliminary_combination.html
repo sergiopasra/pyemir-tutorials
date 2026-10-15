@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Preliminary combination &mdash; pyemir-tutorials v1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=e160b93e"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -36,6 +33,7 @@
           
           <a href="../index.html" class="icon icon-home">
             pyemir-tutorials
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -86,12 +84,31 @@
            <div itemprop="articleBody">
              
   <section id="preliminary-combination">
-<h1>Preliminary combination<a class="headerlink" href="#preliminary-combination" title="Permalink to this heading"></a></h1>
+<h1>Preliminary combination<a class="headerlink" href="#preliminary-combination" title="Link to this heading"></a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Before continuing, make sure that you have already initialize the file tree
 structure by following the instructions provided in the
 <a class="reference internal" href="../preliminaries/preliminaries.html#initial-file-tree"><span class="std std-ref">Initial file tree</span></a> section of this documentation.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When combining a large number of images, and depending on the operating
+system, users may get an error indicating <code class="docutils literal notranslate"><span class="pre">OSError:</span> <span class="pre">[Errno</span> <span class="pre">24]</span> <span class="pre">Too</span> <span class="pre">many</span>
+<span class="pre">open</span> <span class="pre">files</span></code></p>
+<p>You can easily check the maximum number of open files allowed in your
+operating system using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>emir<span class="o">)</span><span class="w"> </span>$<span class="w"> </span><span class="nb">ulimit</span><span class="w"> </span>-Sn
+</pre></div>
+</div>
+<p>This number can be easily increased employing</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>emir<span class="o">)</span><span class="w"> </span>$<span class="w"> </span><span class="nb">ulimit</span><span class="w"> </span>-n<span class="w"> </span>&lt;number&gt;
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">&lt;number&gt;</span></code> is the required number. <strong>Note that you need this number
+to be at least twice the number of images to be combined</strong> (at some
+particular steps during the image combination the pipeline requires to
+access the intermediate images and the same number of mask files).</p>
 </div>
 <p>Assume you want to combine the following raw images obtained using a dithered
 pattern of 7 positions iterated twice (i.e., you have gathered a total of 14
@@ -123,67 +140,67 @@ flatfielding and reprojection (the latter only since PyEmir version 0.17.0)</p><
 <li><p><strong>Step 2:</strong> actual combination of the images</p></li>
 </ul>
 <section id="step-1-basic-reduction-of-individual-exposures">
-<h2>Step 1: basic reduction of individual exposures<a class="headerlink" href="#step-1-basic-reduction-of-individual-exposures" title="Permalink to this heading"></a></h2>
+<h2>Step 1: basic reduction of individual exposures<a class="headerlink" href="#step-1-basic-reduction-of-individual-exposures" title="Link to this heading"></a></h2>
 <p>Move to the directory where you have deployed the initial file tree structure
 containing the basic PyEmir calibration files (see  <a class="reference internal" href="../preliminaries/preliminaries.html#initial-file-tree"><span class="std std-ref">Initial file tree</span></a>).</p>
 <p>Decompress there the previously mentioned tgz file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tar zxvf pyemir_imaging_tutorial_v4.tgz
-...
-...
-(emir) $ rm pyemir_imaging_tutorial_v4.tgz
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tar<span class="w"> </span>zxvf<span class="w"> </span>pyemir_imaging_tutorial_v4.tgz
+<span class="go">...</span>
+<span class="go">...</span>
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>rm<span class="w"> </span>pyemir_imaging_tutorial_v4.tgz
 </pre></div>
 </div>
 <p>This action should have populated the file tree with the
-14 scientific raw FITS (placed wihtin the <code class="docutils literal notranslate"><span class="pre">data</span></code>
+14 scientific raw FITS (placed within the <code class="docutils literal notranslate"><span class="pre">data</span></code>
 subdirectory) and some additional auxiliary files:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree
-.
-├── control.yaml
-├── data
-│   ├── 0001877553-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877559-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877565-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877571-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877577-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877583-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877589-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877595-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877601-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877607-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877613-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877619-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877625-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877631-20181217-EMIR-STARE_IMAGE.fits
-│   ├── master_bpm.fits
-│   ├── master_dark_zeros.fits
-│   ├── master_flat_ones.fits
-│   ├── master_flat_spec.fits
-│   ├── rect_wpoly_MOSlibrary_grism_H_filter_H.json
-│   ├── rect_wpoly_MOSlibrary_grism_J_filter_J.json
-│   ├── rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json
-│   ├── rect_wpoly_MOSlibrary_grism_LR_filter_HK.json
-│   ├── rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json
-│   └── user_offsets.txt
-├── dithered_ini.yaml
-├── dithered_v0.yaml
-├── dithered_v1.yaml
-├── dithered_v2.yaml
-├── dithered_v3.yaml
-├── dithered_v4.yaml
-└── dithered_v5.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree
+<span class="go">.</span>
+<span class="go">├── control.yaml</span>
+<span class="go">├── data</span>
+<span class="go">│   ├── 0001877553-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877559-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877565-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877571-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877577-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877583-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877589-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877595-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877601-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877607-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877613-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877619-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877625-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877631-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── master_bpm.fits</span>
+<span class="go">│   ├── master_dark_zeros.fits</span>
+<span class="go">│   ├── master_flat_ones.fits</span>
+<span class="go">│   ├── master_flat_spec.fits</span>
+<span class="go">│   ├── rect_wpoly_MOSlibrary_grism_H_filter_H.json</span>
+<span class="go">│   ├── rect_wpoly_MOSlibrary_grism_J_filter_J.json</span>
+<span class="go">│   ├── rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json</span>
+<span class="go">│   ├── rect_wpoly_MOSlibrary_grism_LR_filter_HK.json</span>
+<span class="go">│   ├── rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json</span>
+<span class="go">│   └── user_offsets.txt</span>
+<span class="go">├── dithered_ini.yaml</span>
+<span class="go">├── dithered_v0.yaml</span>
+<span class="go">├── dithered_v1.yaml</span>
+<span class="go">├── dithered_v2.yaml</span>
+<span class="go">├── dithered_v3.yaml</span>
+<span class="go">├── dithered_v4.yaml</span>
+<span class="go">└── dithered_v5.yaml</span>
 </pre></div>
 </div>
 <p>You can easily examine the header of the scientific FITS images using the
 astropy utility <code class="docutils literal notranslate"><span class="pre">fitsheader</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ fitsheader data/0001877* \
-  -k nobsblck -k obsblock -k nimgobbl -k imgobbl \
-  -k nexp -k exp -k object -k exptime -k readmode \
-  -k filter -k grism -k date-obs -k ra -k dec -f &gt; fitsheader_out.txt
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>fitsheader<span class="w"> </span>data/0001877*<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-k<span class="w"> </span>nobsblck<span class="w"> </span>-k<span class="w"> </span>obsblock<span class="w"> </span>-k<span class="w"> </span>nimgobbl<span class="w"> </span>-k<span class="w"> </span>imgobbl<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-k<span class="w"> </span>nexp<span class="w"> </span>-k<span class="w"> </span>exp<span class="w"> </span>-k<span class="w"> </span>object<span class="w"> </span>-k<span class="w"> </span>exptime<span class="w"> </span>-k<span class="w"> </span>readmode<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-k<span class="w"> </span>filter<span class="w"> </span>-k<span class="w"> </span>grism<span class="w"> </span>-k<span class="w"> </span>date-obs<span class="w"> </span>-k<span class="w"> </span>ra<span class="w"> </span>-k<span class="w"> </span>dec<span class="w"> </span>-f<span class="w"> </span>&gt;<span class="w"> </span>fitsheader_out.txt
 </pre></div>
 </div>
 <p>The previous command generates a file <code class="docutils literal notranslate"><span class="pre">fitsheader_out.txt</span></code> with the contents
 of some relevant FITS keywords extracted from the header of the images.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                   <span class="n">filename</span>                    <span class="n">NOBSBLCK</span> <span class="n">OBSBLOCK</span> <span class="n">NIMGOBBL</span> <span class="n">IMGOBBL</span> <span class="n">NEXP</span> <span class="n">EXP</span> <span class="n">OBJECT</span> <span class="n">EXPTIME</span>  <span class="n">READMODE</span> <span class="n">FILTER</span> <span class="n">GRISM</span>        <span class="n">DATE</span><span class="o">-</span><span class="n">OBS</span>             <span class="n">RA</span>           <span class="n">DEC</span>     
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                   <span class="n">filename</span>                    <span class="n">NOBSBLCK</span> <span class="n">OBSBLOCK</span> <span class="n">NIMGOBBL</span> <span class="n">IMGOBBL</span> <span class="n">NEXP</span> <span class="n">EXP</span> <span class="n">OBJECT</span> <span class="n">EXPTIME</span>  <span class="n">READMODE</span> <span class="n">FILTER</span> <span class="n">GRISM</span>        <span class="n">DATE</span><span class="o">-</span><span class="n">OBS</span>             <span class="n">RA</span>           <span class="n">DEC</span>
 <span class="o">----------------------------------------------</span> <span class="o">--------</span> <span class="o">--------</span> <span class="o">--------</span> <span class="o">-------</span> <span class="o">----</span> <span class="o">---</span> <span class="o">------</span> <span class="o">--------</span> <span class="o">--------</span> <span class="o">------</span> <span class="o">-----</span> <span class="o">----------------------</span> <span class="o">------------</span> <span class="o">-------------</span>
 <span class="n">data</span><span class="o">/</span><span class="mi">0001877553</span><span class="o">-</span><span class="mi">20181217</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_IMAGE</span><span class="o">.</span><span class="n">fits</span>       <span class="mi">18</span>        <span class="mi">1</span>        <span class="mi">7</span>       <span class="mi">1</span>    <span class="mi">1</span>   <span class="mi">1</span>   <span class="n">TEST</span> <span class="mf">29.99926</span>     <span class="n">RAMP</span>  <span class="n">F1230</span>  <span class="n">OPEN</span> <span class="mi">2018</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">17</span><span class="n">T23</span><span class="p">:</span><span class="mi">57</span><span class="p">:</span><span class="mf">24.72</span> <span class="mi">02</span><span class="p">:</span><span class="mi">39</span><span class="p">:</span><span class="mf">54.057</span> <span class="o">-</span><span class="mi">01</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mf">33.537</span>
 <span class="n">data</span><span class="o">/</span><span class="mi">0001877559</span><span class="o">-</span><span class="mi">20181217</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_IMAGE</span><span class="o">.</span><span class="n">fits</span>       <span class="mi">18</span>        <span class="mi">1</span>        <span class="mi">7</span>       <span class="mi">2</span>    <span class="mi">1</span>   <span class="mi">1</span>   <span class="n">TEST</span> <span class="mf">29.99926</span>     <span class="n">RAMP</span>  <span class="n">F1230</span>  <span class="n">OPEN</span> <span class="mi">2018</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">17</span><span class="n">T23</span><span class="p">:</span><span class="mi">58</span><span class="p">:</span><span class="mf">11.73</span> <span class="mi">02</span><span class="p">:</span><span class="mi">39</span><span class="p">:</span><span class="mf">51.624</span> <span class="o">-</span><span class="mi">01</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mf">09.313</span>
@@ -220,7 +237,7 @@ flatfielding, and image reprojection.</p>
 <p class="admonition-title">Note</p>
 <p>Remember that the <code class="docutils literal notranslate"><span class="pre">numina</span></code> script is the interface with GTC pipelines.
 In order to execute PyEmir recipes you should type something like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run &lt;observation_result_file.yaml&gt; -r &lt;requirements_file.yaml&gt;
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>&lt;observation_result_file.yaml&gt;<span class="w"> </span>-r<span class="w"> </span>&lt;requirements_file.yaml&gt;
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">&lt;observation_result_file.yaml&gt;</span></code> is an observation result file in
@@ -372,7 +389,7 @@ highlighting the first block (first eight lines):</p>
 <span class="linenos">125</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
 </pre></div>
 </div>
-<ul class="simple">
+<ul>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">id</span></code> value is an arbitrary label that is employed to generate the name
 of two auxiliary subdirectories. In this example the reduction of the first
 block will generate two subdirectories named <code class="docutils literal notranslate"><span class="pre">obsid_0001877553_work</span></code> and
@@ -398,33 +415,37 @@ between the different resampling algorithms implemented in that package:
 valid values are: <code class="docutils literal notranslate"><span class="pre">none</span></code> (no reprojection is performed; this leads to bad
 results when combining dithered images, specially at the final image
 borders), <code class="docutils literal notranslate"><span class="pre">interp</span></code> (fastest reprojection method), <code class="docutils literal notranslate"><span class="pre">adaptive</span></code>, or
-<code class="docutils literal notranslate"><span class="pre">exact</span></code> (slowest). Please, have a look to the documentation in the
+<code class="docutils literal notranslate"><span class="pre">exact</span></code> (slowest). Please, have a look to the documentation in the**
 <a class="reference external" href="https://reproject.readthedocs.io/en/stable/">reproject</a> package if you
 need additional information concerning the reprojetion methods. In this
-example we are using <code class="docutils literal notranslate"><span class="pre">interp</span></code>, which provides
-good results. PyEmir users can try to use the slower <code class="docutils literal notranslate"><span class="pre">adaptive</span></code> or
-<code class="docutils literal notranslate"><span class="pre">exact</span></code> methods and compare the final combined images to check for the
-impact of the adopted method (we do not expect important differences).</p></li>
-<li><p>The key <code class="docutils literal notranslate"><span class="pre">enabled:</span> <span class="pre">True</span></code> indicates that this block is going to be reduced.
-As it is going to be shown later, the user can easily
-activate/deactivate the execution of particular reduction recipes (i.e.
-blocks in this file) just by modifying this flag.</p></li>
-</ul>
+example we are using** <code class="docutils literal notranslate"><span class="pre">interp</span></code>, which provides good results and is fast.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
+<p><strong>IMPORTANT: PyEmir users should try to use the slower</strong> <code class="docutils literal notranslate"><span class="pre">adaptive</span></code> <strong>or
+the slowest</strong> <code class="docutils literal notranslate"><span class="pre">exact</span></code> <strong>methods, and compare the final combined images
+to check for the impact of the adopted method.</strong></p>
+</div>
+</li>
+<li><p>The key <code class="docutils literal notranslate"><span class="pre">enabled:</span> <span class="pre">True</span></code> indicates that this block is going to be reduced.
+As it is going to be shown later, the user can easily activate/deactivate the
+execution of particular reduction recipes (i.e.  blocks in this file) just by
+modifying this flag.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Since the generation of the file <code class="docutils literal notranslate"><span class="pre">dithered_ini.yaml</span></code> can be cumbersome,
 specially
 when the number of images is large, an auxiliary script has been
 incorporated in PyEmir in order to help in its generation.</p>
 <p>In particular, the file used in this example can be easily created using a
 few simple commands:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ cd data/
-(emir) $ ls 0001877*fits &gt; list_images.txt
-(emir) $ cd ..
-(emir) $ pyemir-generate_yaml_for_dithered_image \
-  data/list_images.txt --step 0 --repeat 1 \
-  --reprojection interp \
-  --outfile dithered_ini.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>data/
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>ls<span class="w"> </span><span class="m">0001877</span>*fits<span class="w"> </span>&gt;<span class="w"> </span>list_images.txt
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>..
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-generate_yaml_for_dithered_image<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>data/list_images.txt<span class="w"> </span>--step<span class="w"> </span><span class="m">0</span><span class="w"> </span>--repeat<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--reprojection<span class="w"> </span>interp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--outfile<span class="w"> </span>dithered_ini.yaml
 </pre></div>
 </div>
 <p>Note that a temporary file <code class="docutils literal notranslate"><span class="pre">list_images.txt</span></code> is created with a list of the
@@ -449,115 +470,107 @@ calibration files. You do not need to modify anything here.</p>
 <span class="linenos"> 2</span><span class="n">products</span><span class="p">:</span>
 <span class="linenos"> 3</span>  <span class="n">EMIR</span><span class="p">:</span>
 <span class="linenos"> 4</span>    <span class="mi">225</span><span class="n">fcaf2</span><span class="o">-</span><span class="mi">7</span><span class="n">f6f</span><span class="o">-</span><span class="mi">49</span><span class="n">cc</span><span class="o">-</span><span class="mi">972</span><span class="n">a</span><span class="o">-</span><span class="mi">70</span><span class="n">fd0aee8e96</span><span class="p">:</span>  <span class="c1"># original EMIR detector</span>
-<span class="linenos"> 5</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterBadPixelMask&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_bpm.fits&#39;</span><span class="p">}</span>
-<span class="linenos"> 6</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterDark&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_dark_zeros.fits&#39;</span><span class="p">}</span>
-<span class="linenos"> 7</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterIntensityFlat&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_flat_spec.fits&#39;</span><span class="p">}</span>
-<span class="linenos"> 8</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterSpectralFlat&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_flat_spec.fits&#39;</span><span class="p">}</span>
-<span class="linenos"> 9</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">J</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_J_filter_J.json&#39;</span><span class="p">}</span>
-<span class="linenos">10</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">H</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_H_filter_H.json&#39;</span><span class="p">}</span>
-<span class="linenos">11</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Ksp</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json&#39;</span><span class="p">}</span>
-<span class="linenos">12</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">YJ</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json&#39;</span><span class="p">}</span>
-<span class="linenos">13</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">HK</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_LR_filter_HK.json&#39;</span><span class="p">}</span>
-<span class="linenos">14</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">J</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_J_filter_J.json&#39;</span><span class="p">}</span>
-<span class="linenos">15</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">H</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_H_filter_H.json&#39;</span><span class="p">}</span>
-<span class="linenos">16</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Ksp</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_K_filter_Ksp.json&#39;</span><span class="p">}</span>
-<span class="linenos">17</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">YJ</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_LR_filter_YJ.json&#39;</span><span class="p">}</span>
-<span class="linenos">18</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">HK</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_LR_filter_HK.json&#39;</span><span class="p">}</span>
+<span class="linenos"> 5</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterBadPixelMask'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'master_bpm.fits'</span><span class="p">}</span>
+<span class="linenos"> 6</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterDark'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'master_dark_zeros.fits'</span><span class="p">}</span>
+<span class="linenos"> 7</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterIntensityFlat'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'master_flat_spec.fits'</span><span class="p">}</span>
+<span class="linenos"> 8</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterSpectralFlat'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'master_flat_spec.fits'</span><span class="p">}</span>
+<span class="linenos"> 9</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterRectWave'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">J</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'rect_wpoly_MOSlibrary_grism_J_filter_J.json'</span><span class="p">}</span>
+<span class="linenos">10</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterRectWave'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">H</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'rect_wpoly_MOSlibrary_grism_H_filter_H.json'</span><span class="p">}</span>
+<span class="linenos">11</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterRectWave'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Ksp</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json'</span><span class="p">}</span>
+<span class="linenos">12</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterRectWave'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">YJ</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json'</span><span class="p">}</span>
+<span class="linenos">13</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterRectWave'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">HK</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'rect_wpoly_MOSlibrary_grism_LR_filter_HK.json'</span><span class="p">}</span>
+<span class="linenos">14</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'RefinedBoundaryModelParam'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">J</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'final_multislit_bound_param_grism_J_filter_J.json'</span><span class="p">}</span>
+<span class="linenos">15</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'RefinedBoundaryModelParam'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">H</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'final_multislit_bound_param_grism_H_filter_H.json'</span><span class="p">}</span>
+<span class="linenos">16</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'RefinedBoundaryModelParam'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Ksp</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'final_multislit_bound_param_grism_K_filter_Ksp.json'</span><span class="p">}</span>
+<span class="linenos">17</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'RefinedBoundaryModelParam'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">YJ</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'final_multislit_bound_param_grism_LR_filter_YJ.json'</span><span class="p">}</span>
+<span class="linenos">18</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'RefinedBoundaryModelParam'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">HK</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'final_multislit_bound_param_grism_LR_filter_HK.json'</span><span class="p">}</span>
 <span class="linenos">19</span>    <span class="mi">443</span><span class="n">fc0d1</span><span class="o">-</span><span class="n">e09a</span><span class="o">-</span><span class="mi">48</span><span class="n">cc</span><span class="o">-</span><span class="n">a0fd</span><span class="o">-</span><span class="mi">02</span><span class="n">be6f399da2</span><span class="p">:</span>  <span class="c1"># H2RG detector</span>
-<span class="linenos">20</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterBadPixelMask&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_bpm_zeros.fits&#39;</span><span class="p">}</span>
-<span class="linenos">21</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterDark&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_dark_zeros.fits&#39;</span><span class="p">}</span>
-<span class="linenos">22</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterIntensityFlat&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_flat_spec_H2RG.fits&#39;</span><span class="p">}</span>
-<span class="linenos">23</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterSpectralFlat&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_flat_spec_H2RG.fits&#39;</span><span class="p">}</span>
-<span class="linenos">24</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">J</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_J_filter_J.json&#39;</span><span class="p">}</span>
-<span class="linenos">25</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">H</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_H_filter_H.json&#39;</span><span class="p">}</span>
-<span class="linenos">26</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Ksp</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json&#39;</span><span class="p">}</span>
-<span class="linenos">27</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">YJ</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json&#39;</span><span class="p">}</span>
-<span class="linenos">28</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">HK</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_LR_filter_HK.json&#39;</span><span class="p">}</span>
-<span class="linenos">29</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">J</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_J_filter_J.json&#39;</span><span class="p">}</span>
-<span class="linenos">30</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">H</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_H_filter_H.json&#39;</span><span class="p">}</span>
-<span class="linenos">31</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Ksp</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_K_filter_Ksp.json&#39;</span><span class="p">}</span>
-<span class="linenos">32</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">YJ</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_LR_filter_YJ.json&#39;</span><span class="p">}</span>
-<span class="linenos">33</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">HK</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_LR_filter_HK.json&#39;</span><span class="p">}</span>
-<span class="linenos">34</span><span class="n">requirements</span><span class="p">:</span>
-<span class="linenos">35</span>  <span class="n">EMIR</span><span class="p">:</span>
-<span class="linenos">36</span>    <span class="mi">225</span><span class="n">fcaf2</span><span class="o">-</span><span class="mi">7</span><span class="n">f6f</span><span class="o">-</span><span class="mi">49</span><span class="n">cc</span><span class="o">-</span><span class="mi">972</span><span class="n">a</span><span class="o">-</span><span class="mi">70</span><span class="n">fd0aee8e96</span><span class="p">:</span>  <span class="c1"># original EMIR detector</span>
-<span class="linenos">37</span>      <span class="n">default</span><span class="p">:</span>
-<span class="linenos">38</span>       <span class="n">FULL_DITHERED_IMAGE</span><span class="p">:</span>
-<span class="linenos">39</span>        <span class="o">-</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="s1">&#39;x_offsets&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;ref_object_pos.txt&#39;</span><span class="p">}</span>
-<span class="linenos">40</span>    <span class="mi">443</span><span class="n">fc0d1</span><span class="o">-</span><span class="n">e09a</span><span class="o">-</span><span class="mi">48</span><span class="n">cc</span><span class="o">-</span><span class="n">a0fd</span><span class="o">-</span><span class="mi">02</span><span class="n">be6f399da2</span><span class="p">:</span>  <span class="c1"># H2RG detector</span>
-<span class="linenos">41</span>      <span class="n">default</span><span class="p">:</span>
-<span class="linenos">42</span>       <span class="n">FULL_DITHERED_IMAGE</span><span class="p">:</span>
-<span class="linenos">43</span>        <span class="o">-</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="s1">&#39;x_offsets&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;ref_object_pos.txt&#39;</span><span class="p">}</span>
+<span class="linenos">20</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterBadPixelMask'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'master_bpm_zeros.fits'</span><span class="p">}</span>
+<span class="linenos">21</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterDark'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'master_dark_zeros.fits'</span><span class="p">}</span>
+<span class="linenos">22</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterIntensityFlat'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'master_flat_spec_H2RG.fits'</span><span class="p">}</span>
+<span class="linenos">23</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterSpectralFlat'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'master_flat_spec_H2RG.fits'</span><span class="p">}</span>
+<span class="linenos">24</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterRectWave'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">J</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'rect_wpoly_MOSlibrary_grism_J_filter_J.json'</span><span class="p">}</span>
+<span class="linenos">25</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterRectWave'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">H</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'rect_wpoly_MOSlibrary_grism_H_filter_H.json'</span><span class="p">}</span>
+<span class="linenos">26</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterRectWave'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Ksp</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json'</span><span class="p">}</span>
+<span class="linenos">27</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterRectWave'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">YJ</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json'</span><span class="p">}</span>
+<span class="linenos">28</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'MasterRectWave'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">HK</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'rect_wpoly_MOSlibrary_grism_LR_filter_HK.json'</span><span class="p">}</span>
+<span class="linenos">29</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'RefinedBoundaryModelParam'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">J</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'final_multislit_bound_param_grism_J_filter_J.json'</span><span class="p">}</span>
+<span class="linenos">30</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'RefinedBoundaryModelParam'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">H</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'final_multislit_bound_param_grism_H_filter_H.json'</span><span class="p">}</span>
+<span class="linenos">31</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'RefinedBoundaryModelParam'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Ksp</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'final_multislit_bound_param_grism_K_filter_Ksp.json'</span><span class="p">}</span>
+<span class="linenos">32</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'RefinedBoundaryModelParam'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">YJ</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'final_multislit_bound_param_grism_LR_filter_YJ.json'</span><span class="p">}</span>
+<span class="linenos">33</span>    <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'RefinedBoundaryModelParam'</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">HK</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">'final_multislit_bound_param_grism_LR_filter_HK.json'</span><span class="p">}</span>
 </pre></div>
 </div>
-<p>Starting from March 2024, the format of this file has been updated to include calibrations for both the original EMIR detector and the subsequent replacement, the H2RG detector.</p>
+<p>Starting from February 2024, the format of this file has been updated to include calibrations for both the original EMIR detector and the subsequent replacement, the H2RG detector.</p>
 <p><strong>Numina execution</strong></p>
 <p>You are ready to execute the reduction recipe indicated in the file
 <code class="docutils literal notranslate"><span class="pre">dithered_ini.yaml</span></code> (in this case the reduccion recipe named
 <code class="docutils literal notranslate"><span class="pre">STARE_IMAGE</span></code>):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_ini.yaml -r control.yaml
-...
-...
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>dithered_ini.yaml<span class="w"> </span>-r<span class="w"> </span>control.yaml
+<span class="go">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>After the execution of the previous command line, two subdirectories for each
 block should have appeared:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ ls
-control.yaml              obsid_0001877565_results/ obsid_0001877601_work/
-data/                     obsid_0001877565_work/    obsid_0001877607_results/
-dithered_ini.yaml         obsid_0001877571_results/ obsid_0001877607_work/
-dithered_v0.yaml          obsid_0001877571_work/    obsid_0001877613_results/
-dithered_v1.yaml          obsid_0001877577_results/ obsid_0001877613_work/
-dithered_v2.yaml          obsid_0001877577_work/    obsid_0001877619_results/
-dithered_v3.yaml          obsid_0001877583_results/ obsid_0001877619_work/
-dithered_v4.yaml          obsid_0001877583_work/    obsid_0001877625_results/
-dithered_v5.yaml          obsid_0001877589_results/ obsid_0001877625_work/
-obsid_0001877553_results/ obsid_0001877589_work/    obsid_0001877631_results/
-obsid_0001877553_work/    obsid_0001877595_results/ obsid_0001877631_work/
-obsid_0001877559_results/ obsid_0001877595_work/
-obsid_0001877559_work/    obsid_0001877601_results/
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>ls
+<span class="go">control.yaml              obsid_0001877565_results/ obsid_0001877601_work/</span>
+<span class="go">data/                     obsid_0001877565_work/    obsid_0001877607_results/</span>
+<span class="go">dithered_ini.yaml         obsid_0001877571_results/ obsid_0001877607_work/</span>
+<span class="go">dithered_v0.yaml          obsid_0001877571_work/    obsid_0001877613_results/</span>
+<span class="go">dithered_v1.yaml          obsid_0001877577_results/ obsid_0001877613_work/</span>
+<span class="go">dithered_v2.yaml          obsid_0001877577_work/    obsid_0001877619_results/</span>
+<span class="go">dithered_v3.yaml          obsid_0001877583_results/ obsid_0001877619_work/</span>
+<span class="go">dithered_v4.yaml          obsid_0001877583_work/    obsid_0001877625_results/</span>
+<span class="go">dithered_v5.yaml          obsid_0001877589_results/ obsid_0001877625_work/</span>
+<span class="go">obsid_0001877553_results/ obsid_0001877589_work/    obsid_0001877631_results/</span>
+<span class="go">obsid_0001877553_work/    obsid_0001877595_results/ obsid_0001877631_work/</span>
+<span class="go">obsid_0001877559_results/ obsid_0001877595_work/</span>
+<span class="go">obsid_0001877559_work/    obsid_0001877601_results/</span>
 </pre></div>
 </div>
 <p><strong>The</strong> <code class="docutils literal notranslate"><span class="pre">work</span></code> <strong>subdirectories</strong></p>
 <p>All the relevant images (scientific and calibrations) involved in the reduction
-of a particular block of the observation result file are copied into the
-<code class="docutils literal notranslate"><span class="pre">work</span></code> subdirectories in order to preserve the original files.</p>
+of a particular block of the observation result file are placed in the
+<code class="docutils literal notranslate"><span class="pre">work</span></code> subdirectories. By default, numina places there links to the
+original files, which are not modified (the parameter <code class="docutils literal notranslate"><span class="pre">--link-files</span></code>, used
+in the commands of this tutorial, does the same).</p>
 <p>In particular, for the first block:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree obsid_0001877553_work/
-obsid_0001877553_work/
-├── 0001877553-20181217-EMIR-STARE_IMAGE.fits
-├── index.pkl
-├── mask_bpm.fits
-├── master_dark_zeros.fits
-└── master_flatframe.fits
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>dithered_ini.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
+<span class="go">...</span>
+<span class="go">...</span>
+
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree<span class="w"> </span>obsid_0001877553_work/
+<span class="go">obsid_0001877553_work/</span>
+<span class="go">├── 0001877553-20181217-EMIR-STARE_IMAGE.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/0001877553-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">├── master_bpm.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_bpm.fits</span>
+<span class="go">├── master_dark_zeros.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_dark_zeros.fits</span>
+<span class="go">└── master_flat_spec.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_flat_spec.fits</span>
 </pre></div>
 </div>
-<p><em>When disk space is an issue, it is possible to execute numina indicating that
-links (instead of actual copies of the original raw files) must be placed in
-the</em> <code class="docutils literal notranslate"><span class="pre">work</span></code> <em>subdirectory.</em> This behaviour is set using the parameter
-<code class="docutils literal notranslate"><span class="pre">--link-files</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_ini.yaml --link-files -r control.yaml
-...
-...
+<p><em>If you prefer actual copies of the files in the</em> <code class="docutils literal notranslate"><span class="pre">work</span></code> <em>subdirectory,</em>
+use the parameter <code class="docutils literal notranslate"><span class="pre">--copy-files</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>dithered_ini.yaml<span class="w"> </span>--copy-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
+<span class="go">...</span>
+<span class="go">...</span>
 
-(emir) $ tree obsid_0001877553_work/
-obsid_0001877553_work/
-├── 0001877553-20181217-EMIR-STARE_IMAGE.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/0001877553-20181217-EMIR-STARE_IMAGE.fits
-├── index.pkl
-├── master_bpm.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_bpm.fits
-├── master_dark_zeros.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_dark_zeros.fits
-└── master_flat_spec.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_flat_spec.fits
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree<span class="w"> </span>obsid_0001877553_work/
+<span class="go">obsid_0001877553_work/</span>
+<span class="go">├── 0001877553-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">├── master_bpm.fits</span>
+<span class="go">├── master_dark_zeros.fits</span>
+<span class="go">└── master_flat_spec.fits</span>
 </pre></div>
 </div>
 <p><strong>The</strong> <code class="docutils literal notranslate"><span class="pre">results</span></code> <strong>subdirectories</strong></p>
 <p>These subdirectories store the result of the execution of the reduction
 recipes. In particular, for the first block:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tree obsid_0001877553_results/
-obsid_0001877553_results/
-├── processing.log
-├── reduced_image.fits
-├── result.json
-└── task.json
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>tree<span class="w"> </span>obsid_0001877553_results/
+<span class="go">obsid_0001877553_results/</span>
+<span class="go">├── processing.log</span>
+<span class="go">├── reduced_image.fits</span>
+<span class="go">├── result.json</span>
+<span class="go">└── task.json</span>
 </pre></div>
 </div>
 <p>Note that although all the reduced images receive the same name in all these
@@ -566,7 +579,7 @@ there is no confusion because the subdirectory name contains a unique label for
 each block in the observation result file.</p>
 </section>
 <section id="step-2-image-combination">
-<h2>Step 2: image combination<a class="headerlink" href="#step-2-image-combination" title="Permalink to this heading"></a></h2>
+<h2>Step 2: image combination<a class="headerlink" href="#step-2-image-combination" title="Link to this heading"></a></h2>
 <p>After the basic reduction performed in step 1, we can proceed with the
 combination of the images. For that purpose a different reduction recipe must
 be employed: <code class="docutils literal notranslate"><span class="pre">FULL_DITHERED_IMAGE</span></code>.</p>
@@ -752,7 +765,7 @@ of each pixel. Setting this parameter to <code class="docutils literal notransla
 background is simply computed as the median value in the same image in which
 the pixel background is being estimated. Using a value larger than zero sets
 the number of closest images (in time) where the signal of a particular pixel
-is averaged (for example, a value of <code class="docutils literal notranslate"><span class="pre">6</span></code> will tipically mean that the sky
+is averaged (for example, a value of <code class="docutils literal notranslate"><span class="pre">6</span></code> will typically mean that the sky
 background will be estimated using 3 images acquired before and 3 images
 acquired after the current one; note that at the beginning and at the end of
 a given observation sequence, the closest nearby images correspond to
@@ -764,15 +777,15 @@ brightest objects.</p></li>
 <p>As it will be explained later, the use of these parameters can help to obtain
 better results. So far we are only interested in showing a fast way to generate
 a combined image.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>The file <code class="docutils literal notranslate"><span class="pre">dithered_v0.yaml</span></code> can also be automatically generated using
 the same script previously mentioned in step 1:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-generate_yaml_for_dithered_image \
-  data/list_images.txt --step 1 --repeat 1 \
-  --reprojection interp \
-  --obsid_combined combined_v0 \
-  --outfile dithered_v0.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-generate_yaml_for_dithered_image<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>data/list_images.txt<span class="w"> </span>--step<span class="w"> </span><span class="m">1</span><span class="w"> </span>--repeat<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--reprojection<span class="w"> </span>interp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--obsid_combined<span class="w"> </span>combined_v0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--outfile<span class="w"> </span>dithered_v0.yaml
 </pre></div>
 </div>
 <p>Note that here we are using <code class="docutils literal notranslate"><span class="pre">--step</span> <span class="pre">1</span></code> instead of <code class="docutils literal notranslate"><span class="pre">--step</span> <span class="pre">0</span></code>. In
@@ -783,38 +796,41 @@ execution of the combination recipe.</p>
 <code class="docutils literal notranslate"><span class="pre">NEXP=1</span></code>).</p>
 </div>
 <p>The combination of the images is finally performed using numina:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_v0.yaml --link-files -r control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>dithered_v0.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
 <p>The previous execution also generates two auxiliary subdirectories <code class="docutils literal notranslate"><span class="pre">work</span></code> and
 <code class="docutils literal notranslate"><span class="pre">results</span></code>. The resulting combined image can be found in
 <code class="docutils literal notranslate"><span class="pre">obsid_combined_v0_result/reduced_image.fits</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree obsid_combined_v0_results/
-obsid_combined_v0_results/
-├── processing.log
-├── reduced_image.fits
-├── result.json
-└── task.json
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree<span class="w"> </span>obsid_combined_v0_results/
+<span class="go">obsid_combined_v0_results/</span>
+<span class="go">├── processing.log</span>
+<span class="go">├── reduced_image.fits</span>
+<span class="go">├── result.json</span>
+<span class="go">└── task.json</span>
 </pre></div>
 </div>
 <p>You can display the image using <code class="docutils literal notranslate"><span class="pre">ds9</span></code>, using <code class="docutils literal notranslate"><span class="pre">numina-ximshow</span></code> (the display
 tool shipped with numina based on matplotlib), or with any other tool:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_combined_v0_results/reduced_image.fits
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-ximshow<span class="w"> </span>obsid_combined_v0_results/reduced_image.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/combined_v0_trimmed.png"><img alt="combined image, version 0" src="../_images/combined_v0_trimmed.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/combined_v0_trimmed.png"><img alt="combined image, version 0" src="../_images/combined_v0_trimmed.png" style="width: 100%;" />
+</a>
 <p>It is clear that this combined image is far from perfect. In particular, there
 are inhomogeneities in the background level, which are easier to see at the
 image borders. In addition, the objects appear elongated, which indicates that
 the offsets between individual exposures, determined from the WCS header
-information, are not suficiently precise. The zoomed region shown in the next
+information, are not sufficiently precise. The zoomed region shown in the next
 image reveals that the problem is not negligible:</p>
-<a class="reference internal image-reference" href="../_images/combined_v0_zoom_trimmed.png"><img alt="combined image, version 0" src="../_images/combined_v0_zoom_trimmed.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/combined_v0_zoom_trimmed.png"><img alt="combined image, version 0" src="../_images/combined_v0_zoom_trimmed.png" style="width: 100%;" />
+</a>
 <p>In addition, the superflatfield computed when combining the individual
 exposures does exhibit a doughnut-like shape that must be taken account
 (something that we have not yet done). In particular, the image
 <code class="docutils literal notranslate"><span class="pre">obsid_combined_v0_work/superflat_comb_i0.fits</span></code> has the following aspect:</p>
-<a class="reference internal image-reference" href="../_images/superflat_v0_trimmed.png"><img alt="superflatfield, version 0" src="../_images/superflat_v0_trimmed.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/superflat_v0_trimmed.png"><img alt="superflatfield, version 0" src="../_images/superflat_v0_trimmed.png" style="width: 100%;" />
+</a>
 <p>In the next section we are showing several alternatives to handle the previous
 issues and improve the image combination.</p>
 </section>
@@ -831,7 +847,7 @@ issues and improve the image combination.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2024, Universidad Complutense de Madrid.</p>
+    <p>&#169; Copyright 2018-2026, Universidad Complutense de Madrid.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EMIR tutorials &mdash; pyemir-tutorials v1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e160b93e"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -35,6 +32,7 @@
           
           <a href="#" class="icon icon-home">
             pyemir-tutorials
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -76,7 +74,7 @@
            <div itemprop="articleBody">
              
   <section id="emir-tutorials">
-<h1>EMIR tutorials<a class="headerlink" href="#emir-tutorials" title="Permalink to this heading"></a></h1>
+<h1>EMIR tutorials<a class="headerlink" href="#emir-tutorials" title="Link to this heading"></a></h1>
 <p>Welcome. This is page shows tutorials of the data reduction pipelines (DRP)
 of the instrument <a class="reference external" href="http://www.gtc.iac.es/instruments/emir">EMIR</a> at <a class="reference external" href="http://www.gtc.iac.es">GTC</a>.</p>
 <p>EMIR is a <strong>wide-field, near-infrared, multi-object spectrograph</strong>
@@ -95,7 +93,9 @@ tested the code in detail on data reduction related to the <a class="reference e
 have a look to the instructions provided at <a class="reference external" href="http://research.iac.es/proyecto/emir/pages/observing-with-emir/observing-utilities/checking-ramp-raw-data.php">Checking the RAMPs</a>.</p>
 <p>It is very easy to check the employed read-out mode using the auxiliary
 script <code class="docutils literal notranslate"><span class="pre">fitsheader</span></code> (provided in the astropy package). For example:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">fitsheader</span> <span class="pre">*.fits</span> <span class="pre">-k</span> <span class="pre">readmode</span> <span class="pre">-f</span></code></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>fitsheader<span class="w"> </span>*.fits<span class="w"> </span>-k<span class="w"> </span>readmode<span class="w"> </span>-f
+</pre></div>
+</div>
 </div>
 <p>Document index:</p>
 <div class="toctree-wrapper compound">
@@ -118,7 +118,7 @@ script <code class="docutils literal notranslate"><span class="pre">fitsheader</
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2024, Universidad Complutense de Madrid.</p>
+    <p>&#169; Copyright 2018-2026, Universidad Complutense de Madrid.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

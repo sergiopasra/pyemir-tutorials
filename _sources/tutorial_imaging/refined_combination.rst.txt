@@ -17,7 +17,7 @@ As previously mentioned, three are the problems that we want to solve:
      carried out to derive refined offsets. See subsection
      :ref:`improving_offsets_1` below.
 
-   - By providing an ASCII file with a list of offsets measured independently 
+   - By providing an ASCII file with a list of offsets measured independently
      by the user and indicated with the requirement ``offsets:
      user_offsets.txt``. See subsection :ref:`improving_offsets_2` below.
 
@@ -67,7 +67,7 @@ line 127 has also been changed in order to avoid overwriting the ``work`` and
 The refined version of the combined image is then obtained by executing numina
 again with this new observation result file:
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_v1.yaml --link-files -r control.yaml
 
@@ -122,8 +122,8 @@ An alternative to the use of the offsets computed from the WCS information in
 the image header is to provide a two-column ASCII file with the measured (X,Y)
 coordinates of a reference object (i.e., the centroid of a bright star) in
 every individual image. These values are employed to determine the relative
-offsets between the individual exposures. The (arbitray) name of that file must
-be provided through the requirement ``offsets:``. For this tutoral, we are
+offsets between the individual exposures. The (arbitrary) name of that file must
+be provided through the requirement ``offsets:``. For this tutorial, we are
 providing such a file with the name ``user_offsets.txt``. Note that this file
 must be placed within the ``data`` subdirectory.
 
@@ -139,7 +139,7 @@ number 148; note also the ``id`` change in line 127):
 
 The contents of the ASCII file with the measured offsets is the following:
 
-::
+.. code-block:: console
 
    (emir) $ cat data/user_offsets.txt
    822 907
@@ -159,7 +159,7 @@ The contents of the ASCII file with the measured offsets is the following:
 
 Execute numina to obtain the new version of the combined image:
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_v2.yaml --link-files -r control.yaml
 
@@ -225,7 +225,7 @@ In this case we have modified the ``id`` (line 127) and set
 
 Execute numina again with this new observation result file:
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_v3.yaml --link-files -r control.yaml
 
@@ -275,7 +275,7 @@ the same result.
    The conclusion of these comparisons is that the user can rely on the offsets
    computed from the WCS information in the image headers as a
    reasonable initial guess, but that these offsets need to be refined. Unless
-   something is really wrong with that WCS information, the user probabily will
+   something is really wrong with that WCS information, the user probably will
    not need to measure the offsets manually. Anyway, this last option is always
    there just in case it is necessary.
 
@@ -288,7 +288,7 @@ The first obvious way to improve the background computation is by masking the
 objects present in the image. This masking process requires an initial object
 detection, that must be carried out on the result of an initial image
 combination.  For that reason, this masking requires to set ``iterations`` to a
-number larger than zero. 
+number larger than zero.
 
 In addition, the user can indicate that the sky signal at each pixel must be
 computed from the signal at the same pixel in a predefined number of images
@@ -317,7 +317,7 @@ In this example we are using:
     computed. Obviously, when considering the first (or the last) image in the
     sequence, no previous (or after) images are available: in these cases the 6
     images correspond to exposures obtained after (or before) the one
-    considered. Since in our example we are using a sequence of exposures in 
+    considered. Since in our example we are using a sequence of exposures in
     which a pattern of 7 dithered exposures was followed, only 6 images after
     (or before) any particular exposure correspond to different telescope
     pointings. That is the reason for choosing ``sky_images: 6`` (it is the
@@ -329,13 +329,13 @@ computed from the WCS information in the image headers).
 
 Execute numina to start the reduction including object masking:
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_v4.yaml --link-files -r control.yaml
 
 It is useful to subtract the new result from the one derived previously:
 
-::
+.. code-block:: console
 
    (emir) $ numina-imath obsid_combined_v1_results/reduced_image.fits - \
       obsid_combined_v4_results/reduced_image.fits difference_v4.fits
@@ -389,13 +389,20 @@ It is useful to subtract the new result from the one derived previously:
 
 .. _improving_skybackground_2:
 
-Improving the sky background (problem #2)
------------------------------------------
+Improving the sky background (problem #2, old EMIR detector)
+------------------------------------------------------------
+
+.. warning::
+
+   This section explains how to improve the sky background in observations
+   obtained with the original EMIR detector. The analogous explanation for the
+   correction of images obtained with the latest H2RG detector can be found in
+   Section :ref:`improving_skybackground_2_h2rg`.
 
 In all the previous examples, the combined images always exhibit variations in
 the sky background that are clearly visible at the image borders. The reason
 for that is that some individual exposures (in this particular example the
-first two individual images), have a wrong image background. 
+first two individual images), have a wrong image background.
 
 The problem is more severe in the regions where the number of images used for
 the combination is lower:
@@ -420,13 +427,13 @@ the combination is lower:
    .. image:: combined_v4_statistics.png
       :width: 100%
       :alt: combined data version 4, statistical analysis
-   
+
 .. only:: latex
 
    .. image:: combined_v4_statistics.png
       :width: 82%
       :alt: combined data version 4, statistical analysis
-   
+
 It is also possible to examine the sky-subtracted individual images (files
 ending in ``_rfs_i?.fits`` within the ``work`` subdirectories):
 
@@ -499,7 +506,7 @@ easily recognized by having a look to the output of the reduction procedure in
 the terminal, or by examining the file
 ``obsid_combined_v4_results/processing.log``).
 
-One possibility is to remove the first two images from the list of images to be 
+One possibility is to remove the first two images from the list of images to be
 reduced. This is undesirable because it obviously reduces the depth of the
 combined image.
 
@@ -523,7 +530,7 @@ we are using a pattern of 10 x 10 regions in each quadrant. The median value in
 each of these 100 subregions is computed (masking pixels affected by objects)
 and a smooth spline surface is fitted to that collection of points.
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_v5.yaml --link-files -r control.yaml
 
@@ -562,6 +569,67 @@ exposure is available. By looking at the file ``result_i1_npix.fits`` it is
 possible to check that those pixels are just at the borders of the combined
 image.
 
+.. _improving_skybackground_2_h2rg:
+
+Improving the sky background (problem #2, new EMIR detector H2RG)
+-----------------------------------------------------------------
+
+.. warning::
+
+   This section explains how to improve the sky background in observations
+   obtained with the new EMIR detector H2RG. The analogous explanation for the
+   correction of images obtained with original detector can be found in
+   Section :ref:`improving_skybackground_2`.
+
+Exposures taken with the new H2RG detector may show signal variations among the
+32 channels of the detector (which are arrange vertically), as illustrated in
+the following figure (we thank Alan Watson and Yuhan Yang for providing the
+example data for the following screenshots):
+
+.. cd w/GTC/emir/20241016_test_modo_imagen_H2RG
+.. numina-ximshow obsid_combined_v4_results/reduced_image.fits --z1z2 "[-40,40]" --pdf skysub_v4_h2rg.pdf --figuredict "{'figsize':(8, 10), 'dpi':100}"
+.. convert -density 100 skysub_v4_h2rg.pdf -trim skysub_v4_h2rg.png
+
+.. only:: html
+
+   .. image:: skysub_v4_h2rg.png
+      :width: 100%
+      :alt: combined data version 4, detector H2RG
+
+.. only:: latex
+
+   .. image:: skysub_v4_h2rg.png
+      :width: 82%
+      :alt: combined data version 4, detector H2RG
+
+It is possible to correct this problem by determining and subtracting the
+median value in the background signal in each of the channels. For that
+purpose, you should include the requirement ``adhoc_sky_correction_h2rg: True``
+(note that the requirement ``nside_adhoc_sky_correction: 10`` used with the
+original EMIR detector is not valid for the H2RG detector, since the geometry
+of the channels is different!).
+
+.. literalinclude:: dithered_v5_h2rg.yaml
+   :lines: 155-178
+   :emphasize-lines: 1,23
+   :linenos:
+   :lineno-start: 155
+
+.. numina-ximshow obsid_combined_v5_h2rg_results/reduced_image.fits --z1z2 "[-40,40]" --pdf skysub_v5_h2rg.pdf --figuredict "{'figsize':(8, 10), 'dpi':100}"
+.. convert -density 100 skysub_v5_h2rg.pdf -trim skysub_v5_h2rg.png
+
+.. only:: html
+
+   .. image:: skysub_v5_h2rg.png
+      :width: 100%
+      :alt: combined data version 5, detector H2RG
+
+.. only:: latex
+
+   .. image:: skysub_v5_h2rg.png
+      :width: 82%
+      :alt: combined data version 5, detector H2RG
+
 .. _improving_doughnut:
 
 Improving the superflatfield
@@ -582,14 +650,14 @@ change in the ``id`` in line 127):
 **by default, which means that the correction described next is not performed
 unless splicitly stated.**
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_v6.yaml --link-files -r control.yaml
 
 The refined version of the superflatfield is then obtained by fitting a smooth
 surface (preserving some azimuthal symmetry) which is applied to the initial
 superflatfield (dividing by the fitted doughnut-like shape), which provides a
-quite flat new superflatfield. 
+quite flat new superflatfield.
 
 In this example, the initial superflatfield computed in iteration 1 (masking
 objects) is the following:
@@ -638,7 +706,7 @@ strategy is followed in order to perform this latter reduction step:
 We can easily compare the new result with the one obtained using
 ``dithered_v5.yaml``. For that purpose is useful to subtract the new result from the one derived previously:
 
-::
+.. code-block:: console
 
    (emir) $ numina-imath obsid_combined_v6_results/reduced_image.fits - \
       obsid_combined_v5_results/reduced_image.fits difference_v6.fits

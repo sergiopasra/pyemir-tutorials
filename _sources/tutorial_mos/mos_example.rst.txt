@@ -30,43 +30,43 @@ needed!
 Downloading the tutorial data
 =============================
 
-Download the following file: `pyemir_mos_tutorial.tgz 
-<https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz>`_.
+Download the following file: `pyemir_mos_tutorial_v1b.tgz
+<https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1b.tgz>`_.
 
 If you find any trouble trying to download the previous file, try with the
 command line:
 
-::
+.. code-block:: console
 
-   (emir) $ curl -O <https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz
+   (emir) $ curl -O https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1b.tgz
 
 Move to the directory where you have deployed the initial file tree structure
 containing the basic PyEmir calibration files (see  :ref:`initial_file_tree`).
 
 Decompress there the previously mentioned tgz file:
 
-::
+.. code-block:: console
 
-   (emir) $ tar zxvf pyemir_mos_tutorial_v1.tgz
+   (emir) $ tar zxvf pyemir_mos_tutorial_v1b.tgz
    ...
    ...
-   (emir) $ rm pyemir_mos_tutorial_v1.tgz
+   (emir) $ rm pyemir_mos_tutorial_v1b.tgz
 
 This action should have populated the file tree with 24 science exposures
-(placed wihtin the ``data`` subdirectory) and some additional auxiliary files:
+(placed within the ``data`` subdirectory) and some additional auxiliary files:
 
-::
+.. code-block:: console
 
    (emir) $ tree
    ...
 
-You can easily examine the header of the 12 science files using the astropy 
+You can easily examine the header of the 12 science files using the astropy
 utility ``fitsheader``:
 
-::
+.. code-block:: console
 
    (emir) $ fitsheader data/0002004* -k object -k grism -k filter -k exptime -k date-obs -f
-                       filename                         OBJECT    GRISM FILTER  EXPTIME          DATE-OBS       
+                       filename                         OBJECT    GRISM FILTER  EXPTIME          DATE-OBS
    ------------------------------------------------ ------------- ----- ------ ---------- ----------------------
    data/0002004226-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T00:40:52.36
    data/0002004255-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T00:46:58.26
@@ -92,11 +92,11 @@ utility ``fitsheader``:
    data/0002004835-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:50:27.94
    data/0002004864-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:56:31.73
    data/0002004893-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T03:02:40.79
- 
+
 It is also useful to display additional FITS keywords that store relevant
 information concerning the observation strategy:
 
-::
+.. code-block:: console
 
    (emir) $ fitsheader data/0002004*fits -k OBSBLOCK -k NIMGOBBL -k IMGOBBL -k NFRSEC -k FRSEC -k READMODE -f
                     filename                     OBSBLOCK NIMGOBBL IMGOBBL NFRSEC FRSEC READMODE
@@ -125,7 +125,7 @@ information concerning the observation strategy:
    data/0002004835-20190424-EMIR-STARE_SPECTRA.fits        6        4       2     28     0     RAMP
    data/0002004864-20190424-EMIR-STARE_SPECTRA.fits        6        4       3     28     0     RAMP
    data/0002004893-20190424-EMIR-STARE_SPECTRA.fits        6        4       4     28     0     RAMP
-   
+
 The last summary shows that:
 
 - ``OBSBLOCK``: (counter of the block sequence) runs from 1 to 6
@@ -143,7 +143,7 @@ The last summary shows that:
   ``*_raw.fits``. The images we are reducing here are the result of the fit of
   ramps to the collection of 28 reads (in each detector pixel). In this
   tutorial we are using the adjective *raw* to refer to the latter FITS images
-  resulting from the ramp fitting process. 
+  resulting from the ramp fitting process.
 
 - ``FRSEC=0`` (counter of the frame sequence): in this case, a value of ``0``
   indicates that the FITS image is the result of the ramp fitting process. In
@@ -153,10 +153,10 @@ The last summary shows that:
 In summary, the 24 science images provided correspond to 6 ABBA blocks.
 Have a look to any of these images.  For that purpose you can use ``ds9`` or
 the visualization tool provided with numina:
-   
-::
 
-   (emir) $ numina-ximshow data/0002004226-20190424-EMIR-STARE_SPECTRA.fits 
+.. code-block:: console
+
+   (emir) $ numina-ximshow data/0002004226-20190424-EMIR-STARE_SPECTRA.fits
 
 .. numina-ximshow data/0002004226-20190424-EMIR-STARE_SPECTRA.fits --geometry 0,0,650,850
 
@@ -179,7 +179,7 @@ The slitlet configuration can be easily displayed with the help of the
 auxiliary PyEmir script ``pyemir-display_slitlet_arrangement`` (please, note
 the use in this case of the additional parameter ``--n_clusters 2``):
 
-::
+.. code-block:: console
 
    (emir) $ pyemir-display_slitlet_arrangement \
      data/0002004226-20190424-EMIR-STARE_SPECTRA.fits \
@@ -208,6 +208,12 @@ slitlets in two groups: slitlets closed (widths < 1.475 mm) and opened (width >
 Preliminary rectification and wavelength calibration using OH lines
 ===================================================================
 
+.. warning::
+
+   The wavelength calibration performed using OH lines makes use of the vacuum
+   wavelengths published by `Oliva et al. (2013)
+   <https://www.aanda.org/articles/aa/pdf/2013/07/aa21366-13.pdf>`_.
+
 As explained in :ref:`simple_example`, the rectification and wavelength
 calibration of any EMIR spectroscopic image can be obtained with two levels of
 quality:
@@ -218,7 +224,7 @@ quality:
 - **refined calibration**: that refines the empirical calibration by making use
   of either additional calibration images (i.e., arcs) or by using the airglow
   (OH) emission lines. The latter approach is going to be used in this example.
-  
+
 *The refinement process requires an initial estimation of the offsets in the
 spatial (Y axis) and spectral (X axis) directions between the empirical
 calibration and the actual data. These two offsets can be easily estimated
@@ -236,7 +242,7 @@ with the list of scientific images (note that the list of files is generated
 within the ``data`` subdirectory to avoid having the subdirectory name in front
 of the file name):
 
-::
+.. code-block:: console
 
    (emir) $ cd data
 
@@ -274,7 +280,7 @@ of the file name):
 Generate the observation result file to perform a preliminary rectification
 and wavelength calibration:
 
-::
+.. code-block:: console
 
    (emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
      --step 0 --npreliminary 4 --outfile 0_rectwv_preliminary.yaml
@@ -296,12 +302,12 @@ containing the list of scientific images. The rest of the arguments are:
   At this point we are interested in the initial calibration. The other options
   are going to be described later.
 
-- ``--npreliminary 4``: although we have a total of 24 scientific images 
+- ``--npreliminary 4``: although we have a total of 24 scientific images
   the initial rectification and wavelength calibration coefficients will be
   computed for the combined result of the first 4 images (i.e., the first ABBA
   sequence). We could use the 24 images in the combination but, since it is
   possible that the images exhibit small offsets as a function of time, it is
-  safer to use a smaller bunch of files. The OH lines in these images are 
+  safer to use a smaller bunch of files. The OH lines in these images are
   bright enough to provide a good wavelength calibration even in a single
   exposure.
 
@@ -316,20 +322,20 @@ containing the list of scientific images. The rest of the arguments are:
 At this point, the preliminary rectification and wavelength calibration can be
 carried out:
 
-::
+.. code-block:: console
 
    (emir) numina run 0_rectwv_preliminary.yaml --link-files -r control.yaml
    ...
    ...
 
 
-As expected, two new subdirectories have been created: 
+As expected, two new subdirectories have been created:
 
 - ``obsid_0002004226_rectwv_preliminary_results``
 
 - ``obsid_0002004226_rectwv_preliminary_work``
 
-::
+.. code-block:: console
 
    (emir) $ numina-ximshow \
      obsid_0002004226_rectwv_preliminary_results/reduced_mos.fits
@@ -386,7 +392,7 @@ expected slitlet frontiers (file ``ds9_frontiers_rawimage.reg`` placed within
 the subdirectory ``obsid_0002004226_rectwv_preliminary_work``), derived in the
 preliminary rectification and wavelength calibration, over the raw image:
 
-::
+.. code-block:: console
 
    (emir) $ ds9 data/0002004226-20190424-EMIR-STARE_SPECTRA.fits &
 
@@ -444,7 +450,7 @@ We are ready to obtain the refined rectification and wavelength calibration
 coefficients using the integer offsets previously estimated. For that purpose
 it is advisable to make use of the same auxiliary script that we used before:
 
-::
+.. code-block:: console
 
    (emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
      --step 1 \
@@ -508,12 +514,12 @@ Note that in this case the following arguments have been used:
      :lineno-start: 1
 
 This file contains a single block with the 12 images. The ``requirements``
-section appears with the parameters employed when invoking the script 
+section appears with the parameters employed when invoking the script
 ``pyemir-generate_yaml_for_abba``.
 
 Execute the reduction recipe:
 
-::
+.. code-block:: console
 
    (emir) $ numina run 1_rectwv_combined.yaml --link-files -r control.yaml
    ...
@@ -522,13 +528,13 @@ Execute the reduction recipe:
 As expected, two new subdirectories have been created:
 
 - ``obsid_0002004226_rectwv_combined_work``: temporary subdirectory where all
-  the relevant files have been copied (or linked), and where the auxiliary
+  the relevant files have been linked (or copied, with ``--copy-files``), and where the auxiliary
   ``ds9`` region lines have been stored.
 
 - ``obsid_0002004226_rectwv_combined_results``: subdirectory where the
   results of the recipe are saved. In this case:
 
-  ::
+  .. code-block:: console
 
      (emir) $ tree obsid_0002004226_rectwv_combined_results/
 
@@ -565,7 +571,7 @@ As expected, two new subdirectories have been created:
 
 We can have a look to the reduced image:
 
-::
+.. code-block:: console
 
    (emir) $ numina-ximshow obsid_0002004226_rectwv_combined_results/reduced_mos.fits
 
@@ -605,10 +611,12 @@ It is also possible to display the synthetic image, generated during the
 execution of the reduction recipe, with the expected location of the airglow
 (OH) lines (line intensities are normalized in the range from 0.0 to 1.0):
 
-::
+.. code-block:: console
 
    (emir) $ numina-ximshow obsid_0002004226_rectwv_combined_work/expected_catalog_lines.fits \
-     --z1z2 0,0.3
+     --z1z2 -0.1,0.3
+
+(Note: in mac OS under zshell you may need to use ``--z1z2 "[-0.1,0.3]"``)
 
 .. numina-ximshow obsid_0002004226_rectwv_combined_work/expected_catalog_lines.fits --geometry 0,0,1060,850 --z1z2 [-0.1,0.4]
 
@@ -670,7 +678,7 @@ following a longslit pattern.
 In order to use this option, copy the previous observation result file and
 introduce the changes that are described next:
 
-::
+.. code-block:: console
 
   (emir) $ cp 1_rectwv_combined.yaml 1_rectwv_combined_auto.yaml
 
@@ -698,7 +706,7 @@ Changes in ``1_rectwv_combined_auto.yaml`` in comparison with
 
 Execute the reduction recipe:
 
-::
+.. code-block:: console
 
    (emir) $ numina run 1_rectwv_combined_auto.yaml --link-files -r control.yaml
    ...
@@ -751,11 +759,11 @@ These numbers are the same as the ones that we estimated previously. For that
 reason, the resulting refined rectification and wavelength calibrations
 coefficients are the same:
 
-::
+.. code-block:: console
 
    (emir) $ diff \
      obsid_0002004226_rectwv_combined_auto_results/rectwv_coeff.json \
-     obsid_0002004226_rectwv_combined_results/rectwv_coeff.json 
+     obsid_0002004226_rectwv_combined_results/rectwv_coeff.json
 
    8c8
    <   "uuid": "1139443e-99db-11e9-b393-3c15c2e3dc50",
@@ -774,7 +782,7 @@ Note that the contents of both files are identical except for the unique
 Fast ABBA combination
 =====================
 
-The reduction recipe `` ABBA_SPECTRA_FAST_RECTWV`` performs a fast ABBA
+The reduction recipe ``ABBA_SPECTRA_FAST_RECTWV`` performs a fast ABBA
 combination since it employs a single rectification and wavelength calibration
 solution for all the individual images. For that reason, all the A images in
 the ABBA sequences can be combined before rectification and wavelength
@@ -785,16 +793,16 @@ rectification and wavelength calibration process is carried out only once).
 **Note that this recipe assumes that the images listed in the file**
 ``data/list_abba.txt`` **follow an ABBA pattern**.
 
-::
+.. code-block:: console
 
   (emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
-    --step 2 --rectwv_combined --outfile 2_abba_fast.yaml 
+    --step 2 --rectwv_combined --outfile 2_abba_fast.yaml
 
    Expected sequence pattern: ABBA
    Number of sequences......: 6
    Full set of images.......: ABBAABBAABBAABBAABBAABBA
    --> File 2_abba_fast.yaml generated!
-   
+
 The observation result file ``2_abba_fast.yaml`` has the following content:
 
 .. literalinclude:: 2_abba_fast.yaml
@@ -805,7 +813,11 @@ The ``requirements`` section (lines 29-36) is now different:
 
 - ``pattern``: indicates that the images in the ``frames`` sections correspond
   to ABBA sequences. That means that the total number of images must be an
-  interger multiple of 4.
+  integer multiple of 4.
+
+- ``repeat``: number of exposures at each position in the previous pattern. By
+  default, a value of 1 is assumed. If, for example, ``repeat: 2``, the actual
+  observation pattern would be AABBBBAA.
 
 - ``rectwv_coeff``: the value that appears here is the expected file name for
   the rectification and wavelength calibration coefficients of the first image.
@@ -830,7 +842,7 @@ The ``requirements`` section (lines 29-36) is now different:
   Leaving this number as zero means that no attempt to merge the A and B images
   is going to be performed.
 
-::
+.. code-block:: console
 
   (emir) $ numina run 2_abba_fast.yaml --link-files -r control.yaml
 
@@ -858,7 +870,7 @@ Making a zoom in the resulting combined image, we estimate that the vertical
 offsets between A and B spectra (white and black, respectively) is around 38
 pixels. We can introduce this number in the requirement ``voffset_pix``:
 
-::
+.. code-block:: console
 
    (emir) $ cp 2_abba_fast.yaml 2_abba_fast_bis.yaml
 
@@ -866,24 +878,24 @@ pixels. We can introduce this number in the requirement ``voffset_pix``:
    ...
 
 We modify the label in line 1 (adding the suffix ``_bis``), and set the
-vertical offset to 38 pixels in line 36:
+vertical offset to 38 pixels in line 37:
 
 .. literalinclude:: 2_abba_fast_bis.yaml
    :linenos:
-   :emphasize-lines: 1, 36
+   :emphasize-lines: 1, 37
    :lineno-start: 1
 
 Execute the again the same reduction recipe but using the new observation
 result file:
 
-::
+.. code-block:: console
 
   (emir) $ numina run 2_abba_fast_bis.yaml --link-files -r control.yaml
 
 .. numina-ximshow obsid_abba_fast_bis_results/reduced_mos_abba_combined.fits --geometry 0,0,650,850 --z1z2 [-5,5]
 
 Since we have provided a non-zero value for ``voffset_pix``, the image
-``reduced_mos_abba_combined.fits`` is not empty but contains the proper 
+``reduced_mos_abba_combined.fits`` is not empty but contains the proper
 coaddition of all the A and B spectra. All the targets that have been properly
 observed in the A and the B images should appear here three times: two in
 negative (black spectra) and one in positive (white spectrum in between the
@@ -925,11 +937,11 @@ were employed to align the CSU on sky. The brightest one was placed in slitlet
 number 2. Let's select all the A images and display a zoom around this slitlet
 region:
 
-::
+.. code-block:: console
 
-   (emir) $ list_a=`fitsheader data/0002004*.fits -k IMGOBBL -f | awk '$2 == 1 || $2 == 4 {print $1}'`
+   (emir) $ fitsheader data/0002004*.fits -k IMGOBBL -f | awk '$2 == 1 || $2 == 4 {print $1}' > list_a.txt
 
-   (emir) $  numina-ximshow $list_a \
+   (emir) $ numina-ximshow list_a.txt \
     --bbox 86,2047,9,70 \
     --z1z2 0,1100 \
     --pdffile brightspectrum_a.pdf \
@@ -1046,7 +1058,7 @@ Cross-correlating these spatial profiles it is possible to compute de relative
 offsets of all the A images relative to the first A image. The same process is
 carried out with the B images, using in this case the first B image as
 reference. Note that bright OH sky lines are masked before computing the
-spatial profiles. 
+spatial profiles.
 
 When the object selected for the A and B images is the same, the recipe is also
 able to compute the relative offset between the combined A and the combined B
@@ -1061,29 +1073,29 @@ A template of observation result file making use of this recipe can be
 generated with the help of the auxiliary script
 ``pyemir-generate_yaml_for_abba`` with the argument ``--step 3``:
 
-::
+.. code-block:: console
 
    (emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
-     --step 3 --rectwv_combined --outfile 3_abba_template.yaml 
+     --step 3 --rectwv_combined --outfile 3_abba_template.yaml
 
    Expected sequence pattern: ABBA
    Number of sequences......: 6
    Full set of images.......: ABBAABBAABBAABBAABBAABBA
    --> File 3_abba_template.yaml generated!
-   
+
 The observation result generated, ``3_abba_template.yaml``, has the following
 content:
 
 .. literalinclude:: 3_abba_template.yaml
    :linenos:
-   :emphasize-lines: 1, 36-46
+   :emphasize-lines: 1, 37-47
    :lineno-start: 1
 
 The ``id`` label (line 1) is again different (to avoid overwriting the previous
 reductions). The ``requirements`` section now contains a new subsection called
-``refine_target_along_slitlet`` (lines 36-46), where specific parameters for
+``refine_target_along_slitlet`` (lines 37-47), where specific parameters for
 the computation of the relative offsets between images appear.  Some of them
-are predefined, but others need to be inserted by the user (in particular, 
+are predefined, but others need to be inserted by the user (in particular,
 all the *To Be Defined* ``TBD`` values):
 
 - ``npix_removed_near_ohlines``: before computing the spatial profiles of the
@@ -1099,11 +1111,11 @@ all the *To Be Defined* ``TBD`` values):
 
 - ``save_individual_images``: a value of 0 indicates that some intermediate
   images (e.g. the individual shifted images after computing the relative
-  offsets with respect to the first A or B images) do not need to be saved in 
+  offsets with respect to the first A or B images) do not need to be saved in
   the ``work`` subdirectory. This is useful to save disk space. Setting this
   parameter to 1 allows those images to be saved.
-  
-- ``ab_different_target``: 
+
+- ``ab_different_target``:
 
   - Setting this parameter to 0 means that the target chosen to determine the
     offsets within the A and within the B images is the same. In that case the
@@ -1123,7 +1135,7 @@ all the *To Be Defined* ``TBD`` values):
   measured in the rectified and wavelength calibrated images**.
 
 - ``vpix_region_a_sky``: pixel interval in the spatial direction where the sky
-  level can be estimated for the previous bright target. 
+  level can be estimated for the previous bright target.
 
 - ``vpix_region_b_target`` and ``vpix_region_b_sky`` play the same role as
   the previous two parameters, but for the bright B target.
@@ -1143,7 +1155,7 @@ In order to decide appropriate values for these parameters, it is useful to
 examine the result of the previous reduction, overplotting the ds9 regions
 corresponding to the boundaries of the different slitlets:
 
-::
+.. code-block:: console
 
    (emir) $ ds9 obsid_abba_fast_bis_results/reduced_mos_abba.fits &
 
@@ -1152,13 +1164,13 @@ corresponding to the boundaries of the different slitlets:
 - select ``region --> load --> obsid_abba_fast_bis_work/ds9_boundaries_rectified.reg``
 
 The distribution tgz file of this example already generated a file in our
-directory tree named ``3_abba.yaml``. Note that in the ``requirements`` 
+directory tree named ``3_abba.yaml``. Note that in the ``requirements``
 section of this file you can find the relevant parameters already set:
 
-::
+.. code-block:: console
 
-   (emir) $ $ diff 3_abba_template.yaml 3_abba.yaml 
-   40,46c40,46
+   (emir) $ diff 3_abba_template.yaml 3_abba.yaml
+   41,47c41,47
    <     ab_different_target: TBD
    <     vpix_region_a_target: [TBD, TBD]
    <     vpix_region_a_sky: [TBD, TBD]
@@ -1186,7 +1198,7 @@ information in the image headers to determine the offset between both set of
 images. Finally, since B spectra appear above the A exposures, this parameter
 should be set to 1 (instead of -1).
 
-::
+.. code-block:: console
 
    (emir) $ numina run 3_abba.yaml --link-files -r control.yaml
    ...
@@ -1223,7 +1235,7 @@ the location of the OH lines (X direction) or in the slitlet frontiers (Y
 direction) when comparing different images. These variations are easy to detect
 (when present) making a zoom in a relatively small are of the images:
 
-::
+.. code-block:: console
 
    (emir) $ numina-ximshow data/0002004*fits --bbox 1180,1320,1180,1280  \
      --z1z2 0,1100 --pdffile abba_imageoffsets.pdf  \
@@ -1349,7 +1361,7 @@ image.
 The simple way to do it is making again use of the auxiliary script
 ``pyemir-generate_yaml_for_abba``:
 
-::
+.. code-block:: console
 
    (emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
      --step 1 \
@@ -1369,7 +1381,7 @@ Note that we have used the script with the same parameters that we
 employed above to generate ``1_rectwv_combined.yaml``, but here we have omitted
 the flag ``--rectwv_combined``. Leaving out this parameter leads to the
 following observation result file (that we have named
-``1_rectwv_individual.yaml`` to avoid overwritting the previous one):
+``1_rectwv_individual.yaml`` to avoid overwriting the previous one):
 
 .. literalinclude:: 1_rectwv_individual.yaml
      :linenos:
@@ -1381,7 +1393,7 @@ in the previous ``1_rectwv_combined.yaml`` file. The execution of the new
 observation result file will logically take longer since now the reduction
 recipe will be executed 24 times instead of one:
 
-::
+.. code-block:: console
 
    (emir) $ numina run 1_rectwv_individual.yaml --link-files -r control.yaml
    ...
@@ -1401,9 +1413,10 @@ observation result file that must contain the list of all the files
 subdirectories. This file can be generated automatically using, once again, the
 auxiliary script ``pyemir-generate_yaml_for_abba``:
 
-::
+.. code-block:: console
 
-   (emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt --step 3 --outfile 3_abba_template_individual.yaml
+   (emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
+     --step 3 --outfile 3_abba_template_individual.yaml
 
 Note that in this case we have not employed the flag ``--rectwv_combined``
 (that we used previously when generating ``3_abba_template.yaml``). The new
@@ -1412,31 +1425,31 @@ content:
 
 .. literalinclude:: 3_abba_template_individual.yaml
    :linenos:
-   :emphasize-lines: 31-55
+   :emphasize-lines: 32-56
    :lineno-start: 1
 
 The difference between the new file ``3_abba_template_individual.yaml`` and the
 previous ``3_abba_template.yaml`` is that the ``requirements`` section now
-contains the keyword ``list_rectwv_coeff`` (line 31) followed by a list of the
-24 locations of the individual ``rectwv_coeff.json`` files (lines 32 to 55).
+contains the keyword ``list_rectwv_coeff`` (line 32) followed by a list of the
+24 locations of the individual ``rectwv_coeff.json`` files (lines 33 to 56).
 
 Before making use of this file via numina, we have to fill the ``TBD``
-parameters under the ``refine_target_along_slitlet`` block. 
+parameters under the ``refine_target_along_slitlet`` block.
 
 The distribution tgz file of this example already generated a file in our
-directory tree named ``3_abba_individual.yaml``. Note that in the 
-``requirements`` section of this file you can find the relevant parameters 
+directory tree named ``3_abba_individual.yaml``. Note that in the
+``requirements`` section of this file you can find the relevant parameters
 already set:
 
-::
+.. code-block:: console
 
-   (emir) $ diff 3_abba_template_individual.yaml 3_abba_individual.yaml 
+   (emir) $ diff 3_abba_template_individual.yaml 3_abba_individual.yaml
 
    1c1
    < id: _abba
    ---
    > id: _abba_individual
-   64,70c64,70
+   65,71c65,71
    <     ab_different_target: TBD
    <     vpix_region_a_target: [TBD, TBD]
    <     vpix_region_a_sky: [TBD, TBD]
@@ -1457,7 +1470,7 @@ Note that, apart from the filled ``TBD`` numbers, we have also modified the
 first line of the observation result file to provide a different ``id`` label a
 avoid overwriting previous reductions:
 
-::
+.. code-block:: console
 
    (emir) $ numina run 3_abba_individual.yaml --link-files -r control.yaml
    ...
